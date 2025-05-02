@@ -6,8 +6,8 @@ package autonoma.menuJuegos.elements;
 
 /**
  *
- * @author maria
+ * @author Camila
  */
-public class Pacman implements Juego {
+public interface Juego {
     
 }
