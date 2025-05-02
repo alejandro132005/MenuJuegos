@@ -1,0 +1,7 @@
+**/nbproject/private/
+**/nbproject/Makefile-*.Makefile
+**/nbproject/package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
