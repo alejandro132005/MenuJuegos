@@ -6,8 +6,9 @@ package autonoma.menuJuegosBase.elements;
 
 /**
  *
- * @author aleja
+ * @author maria
  */
-public abstract class Sprite {
+public class SpriteMobile extends Sprite {
+    
     
 }

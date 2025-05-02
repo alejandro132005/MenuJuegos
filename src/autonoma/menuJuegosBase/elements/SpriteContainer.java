@@ -4,10 +4,22 @@
  */
 package autonoma.menuJuegosBase.elements;
 
+import java.awt.Rectangle;
+
 /**
  *
- * @author aleja
+ * @author maria
  */
-public abstract class Sprite {
+public class SpriteContainer extends Sprite implements GraphicContainer{
+
+    @Override
+    public void refresh() {
+        
+    }
+
+    @Override
+    public Rectangle getBoundaries() {
+        return null;
+    }
     
 }
