@@ -4,10 +4,15 @@
  */
 package autonoma.menuJuegos.main;
 
+import autonoma.menuJuegos.gui.GameWindow;
+
 /**
  *
  * @author maria
  */
 public class Main {
-    
+    public static void main(String[] args) {
+        GameWindow ventanaPrincipal = new GameWindow();
+        ventanaPrincipal.setVisible(true);
+    }
 }
