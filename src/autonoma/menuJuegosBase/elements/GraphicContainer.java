@@ -5,11 +5,12 @@
 package autonoma.menuJuegosBase.elements;
 
 import java.awt.Rectangle;
-
 /**
- *
- * @author maria
- */
+ * Modelo que permite representar un GraphicContainer
+ * @author Camila
+ * @since 20250519
+ * @version 1.0
+*/
 public interface GraphicContainer {
     public void refresh();
     public Rectangle getBoundaries();
