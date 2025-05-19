@@ -8,6 +8,6 @@ package autonoma.menuJuegos.elements;
  *
  * @author maria
  */
-public class Pacman implements Juego {
+public class Pacman {
     
 }
