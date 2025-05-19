@@ -66,6 +66,22 @@ public abstract class Sprite {
         this.height = height;
         this.width = width;
     }
+
+    public Sprite(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) {
+        this.x = x;
+        this.y = y;
+        this.height = height;
+        this.width = width;
+        this.color = color;
+        this.gameContainer = gameContainer;
+    }
+
+    public Sprite(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    
     
     /**
      * Metodo que verifica si se sale el Sprite del contenedor grafico
