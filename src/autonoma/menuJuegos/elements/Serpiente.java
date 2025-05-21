@@ -4,35 +4,76 @@
  */
 package autonoma.menuJuegos.elements;
 
-import autonoma.menuJuegosBase.elements.GraphicContainer;
-import autonoma.menuJuegosBase.elements.Sprite;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.util.ArrayList;
 
-/**
- *
- * @author Camila
- */
-public class Serpiente extends Sprite{
-    
-    int velocidadX;
-    int velocidadY;
-     
-    public Serpiente(int x, int y, int height, int width, Color color, GraphicContainer gameContainer, int velocidadX, int velocidadY) {
-        super(x, y, height, width, color, gameContainer);
-        this.velocidadX = velocidadX;
-        this.velocidadY = velocidadY;
+public class Serpiente{
+    public Cuadro cabeza;
+    public ArrayList<Cuadro> cuerpo = new ArrayList<>();
+    public int velocidadX = 1;
+    public int velocidadY = 0;
+
+    public Serpiente(int w, int h) {
+        this.cabeza = new Cuadro(w, h);
     }
 
-    public Serpiente(int x, int y) {
-        super(x, y);
+    public void move() {
+        if (!cuerpo.isEmpty()) {
+            for (int i = cuerpo.size() - 1; i > 0; i--) {
+                cuerpo.get(i).setX(cuerpo.get(i - 1).getX());
+                cuerpo.get(i).setY(cuerpo.get(i - 1).getY());
+            }
+            cuerpo.get(0).setX(cabeza.getX());
+            cuerpo.get(0).setY(cabeza.getY());
+        }
+
+        cabeza.setX(cabeza.getX() + velocidadX);
+        cabeza.setY(cabeza.getY() + velocidadY);
     }
-    
 
 
-    @Override
-    public void paint(Graphics g) {
-        
+    public void grow(Cuadro comida) {
+        cuerpo.add(new Cuadro(comida.getX(), comida.getY()));
+    }
+
+    public boolean collidesWithSelf() {
+        for (Cuadro t : cuerpo) {
+            if (t.getX() == cabeza.getX() && t.getY() == cabeza.getY()) {
+                return true;
+            }
+        }
+        return false;
+    } 
+
+    public int getVelocityX() {
+        return velocidadX;
+    }
+
+    public void setVelocityX(int velocityX) {
+        this.velocidadX = velocityX;
+    }
+
+    public int getVelocityY() {
+        return velocidadY;
+    }
+
+    public void setVelocityY(int velocityY) {
+        this.velocidadY = velocityY;
+    }
+
+    public Cuadro getCabeza() {
+        return cabeza;
+    }
+
+    public void setCabeza(Cuadro cabeza) {
+        this.cabeza = cabeza;
+    }
+
+    public ArrayList<Cuadro> getCuerpo() {
+        return cuerpo;
+    }
+
+    public void setCuerpo(ArrayList<Cuadro> cuerpo) {
+        this.cuerpo = cuerpo;
     }
 
     public int getVelocidadX() {
@@ -50,59 +91,6 @@ public class Serpiente extends Sprite{
     public void setVelocidadY(int velocidadY) {
         this.velocidadY = velocidadY;
     }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public GraphicContainer getGameContainer() {
-        return gameContainer;
-    }
-
-    public void setGameContainer(GraphicContainer gameContainer) {
-        this.gameContainer = gameContainer;
-    }
-    
-   
-
-    
-    
     
     
 }

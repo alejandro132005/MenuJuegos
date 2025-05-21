@@ -4,81 +4,69 @@
  */
 package autonoma.menuJuegos.elements;
 
-import autonoma.menuJuegosBase.elements.GraphicContainer;
-import autonoma.menuJuegosBase.elements.Sprite;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.util.Random;
 
 /**
  *
  * @author Camila
  */
-public class ComidaSnake  extends Sprite{
+public class ComidaSnake{
+    public Cuadro posicion;
+    private int maxWidth;
+    private int maxHeight;
+    private int tamanoCuadro;
+    private Random random = new Random();
 
-    public ComidaSnake(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) {
-        super(x, y, height, width, color, gameContainer);
+    public ComidaSnake(int maxWidth, int maxHeight, int tamanoCuadro) {
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+        this.tamanoCuadro = tamanoCuadro;
+        posicion = new Cuadro(0, 0);
+        respawn();
     }
 
-    public ComidaSnake(int x, int y) {
-        super(x, y);
-    }
-    
-
-    
-    
-    @Override
-    public void paint(Graphics g) {
+    public void respawn() {
+        posicion.setX(random.nextInt(maxWidth / tamanoCuadro));
+        posicion.setX(random.nextInt(maxHeight / tamanoCuadro));
     }
 
-    public int getX() {
-        return x;
+    public Cuadro getPosition() {
+        return posicion;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setPosition(Cuadro position) {
+        this.posicion = position;
     }
 
-    public int getY() {
-        return y;
+    public int getMaxWidth() {
+        return maxWidth;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setMaxWidth(int maxWidth) {
+        this.maxWidth = maxWidth;
     }
 
-    public int getHeight() {
-        return height;
+    public int getMaxHeight() {
+        return maxHeight;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setMaxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
     }
 
-    public int getWidth() {
-        return width;
+    public int getTamanoCuadro() {
+        return tamanoCuadro;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setTamanoCuadro(int tamanoCuadro) {
+        this.tamanoCuadro = tamanoCuadro;
     }
 
-    public Color getColor() {
-        return color;
+    public Random getRandom() {
+        return random;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setRandom(Random random) {
+        this.random = random;
     }
-
-    public GraphicContainer getGameContainer() {
-        return gameContainer;
-    }
-
-    public void setGameContainer(GraphicContainer gameContainer) {
-        this.gameContainer = gameContainer;
-    }
-    
-    
-    
-    
 }
