@@ -36,7 +36,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     
     private Serpiente serpiente;
     private ComidaSnake comida;
-    private int tamanoCuadro = 20;
+    private int tamanoCuadro = 30;
     private boolean gameOver = false;
     private int puntaje = 0;
     Random random;
@@ -45,10 +45,14 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         super(x, y, width, height, color, container);
         serpiente = new Serpiente(5, 5);
         comida = new ComidaSnake(width, height, tamanoCuadro);
+       
     }
 
     public void draw(Graphics g) {
         //Grid Lines
+        g.setColor(Color.black);
+        g.fillRect(0,0,this.width,this.height);
+        g.setColor(Color.GRAY);
         for(int i = 0; i < this.width/tamanoCuadro; i++) {
             g.drawLine(i*tamanoCuadro, 0, i*tamanoCuadro, this.height);
             g.drawLine(0, i*tamanoCuadro, this.width, i*tamanoCuadro); 
@@ -72,10 +76,10 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         g.setFont(new Font("Arial", Font.PLAIN, 16));
         if (gameOver) {
             g.setColor(Color.red);
-            g.drawString("Perdiste: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 16, tamanoCuadro);
+            g.drawString("Perdiste: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro -16, 50);
         }
         else {
-            g.drawString("Puntaje: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 16, tamanoCuadro);
+            g.drawString("Puntaje: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 16, 50);
         }
     }
     
@@ -90,25 +94,25 @@ public class Snake extends SpriteContainer implements GraphicContainer {
      * @throws IOException
      */
     public void handleKey(KeyEvent e) throws IOException {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP -> {
-                serpiente.velocidadX = 0;
-                serpiente.velocidadY = -1;
-            }
-            case KeyEvent.VK_DOWN -> {
-                serpiente.velocidadX = 0;
-                serpiente.velocidadY = 1;
-            }
-            case KeyEvent.VK_LEFT -> {
-                serpiente.velocidadX = -1;
-                serpiente.velocidadY = 0;
-            }
-            case KeyEvent.VK_RIGHT -> {
-                serpiente.velocidadX = 1;
-                serpiente.velocidadY = 0;
-            }
-        }
+        if (e.getKeyCode() == KeyEvent.VK_W && this.serpiente.getVelocidadX() != 1) {
+             this.serpiente.setVelocidadX(0);
+             this.serpiente.setVelocidadY(-1);
+         }
+         else if (e.getKeyCode() == KeyEvent.VK_S && this.serpiente.getVelocidadY() != -1) {
+             this.serpiente.setVelocidadX(0);
+             this.serpiente.setVelocidadY(1);
+         }
+         else if (e.getKeyCode() == KeyEvent.VK_A && this.serpiente.getVelocidadX() != 1) {
+             this.serpiente.setVelocidadX(-1);
+             this.serpiente.setVelocidadY(0);
+         }
+         else if (e.getKeyCode() == KeyEvent.VK_D && this.serpiente.getVelocidadX() != -1) {
+             this.serpiente.setVelocidadX(1);
+             this.serpiente.setVelocidadY(0);
+         }
     }
+    
+    
 
     /**
      * Actualiza el puntaje y lo guarda en un archivo
@@ -169,6 +173,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         this.actualizarPuntaje(puntaje);
     }
     
+    
 //    /**
 //     * Reinicia el puntaje y el arreglo de sprites
 //     * @throws IOException
@@ -199,4 +204,13 @@ public class Snake extends SpriteContainer implements GraphicContainer {
 //    public void setAcabado(boolean acabado) {
 //        this.acabado = acabado;
 //    }
+
+    public Serpiente getSerpiente() {
+        return serpiente;
+    }
+
+    public void setSerpiente(Serpiente serpiente) {
+        this.serpiente = serpiente;
+    }
+
 }

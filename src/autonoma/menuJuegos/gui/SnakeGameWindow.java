@@ -4,6 +4,7 @@
  */
 package autonoma.menuJuegos.gui;
 
+import autonoma.menuJuegos.elements.HiloMoverSnake;
 import autonoma.menuJuegos.elements.Snake;
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import java.awt.Color;
@@ -19,19 +20,23 @@ import java.util.logging.Logger;
  * @author Camila
  */
 public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContainer {
-    Snake ventana = new Snake(0, 0, 480, 480, Color.BLACK, this);
+    Snake ventana = new Snake(0, 0, 400, 400, Color.BLACK, null);
+    Thread hilo = new Thread(new HiloMoverSnake(this.ventana));
     public SnakeGameWindow() {
         initComponents();
+        this.setSize(400,400);
         this.setLocationRelativeTo(null);
+        hilo.start();
     }
     
     private void exitGame(){
-        System.exit(0);
+        this.dispose();
     }
     
     @Override
     public void paint(Graphics g) {
        super.paint(g); 
+       setBackground(Color.black);
        this.ventana.draw(g);
     }
 
@@ -66,27 +71,26 @@ public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContai
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        try {
-            switch(evt.getKeyCode())
-            {
-                case KeyEvent.VK_UP:
-                    this.ventana.handleKey(evt);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    this.ventana.handleKey(evt);
-                    break;
-                case KeyEvent.VK_LEFT:
-                    this.ventana.handleKey(evt);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    this.ventana.handleKey(evt);
-                case KeyEvent.VK_Q:
-                    exitGame();
-            }
-            repaint();
-        } catch (IOException ex) {
-            Logger.getLogger(SnakeGameWindow.class.getName()).log(Level.SEVERE, null, ex);
+        if (evt.getKeyCode() == KeyEvent.VK_W && this.ventana.getSerpiente().getVelocidadX() != 1) {
+            this.ventana.getSerpiente().setVelocidadX(0);
+            this.ventana.getSerpiente().setVelocidadY(-1);
         }
+        else if (evt.getKeyCode() == KeyEvent.VK_S && this.ventana.getSerpiente().getVelocidadY() != -1) {
+            this.ventana.getSerpiente().setVelocidadX(0);
+            this.ventana.getSerpiente().setVelocidadY(1);
+        }
+        else if (evt.getKeyCode() == KeyEvent.VK_A && this.ventana.getSerpiente().getVelocidadX() != 1) {
+            this.ventana.getSerpiente().setVelocidadX(-1);
+            this.ventana.getSerpiente().setVelocidadY(0);
+        }
+        else if (evt.getKeyCode() == KeyEvent.VK_D && this.ventana.getSerpiente().getVelocidadX() != -1) {
+            this.ventana.getSerpiente().setVelocidadX(1);
+            this.ventana.getSerpiente().setVelocidadY(0);
+        }
+        else if (evt.getKeyCode() == KeyEvent.VK_Q) {
+            exitGame();
+        }
+        repaint();
     }//GEN-LAST:event_formKeyPressed
 
     @Override
