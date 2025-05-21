@@ -44,22 +44,6 @@ public class Serpiente{
         return false;
     } 
 
-    public int getVelocityX() {
-        return velocidadX;
-    }
-
-    public void setVelocityX(int velocityX) {
-        this.velocidadX = velocityX;
-    }
-
-    public int getVelocityY() {
-        return velocidadY;
-    }
-
-    public void setVelocityY(int velocityY) {
-        this.velocidadY = velocityY;
-    }
-
     public Cuadro getCabeza() {
         return cabeza;
     }
@@ -91,6 +75,4 @@ public class Serpiente{
     public void setVelocidadY(int velocidadY) {
         this.velocidadY = velocidadY;
     }
-    
-    
 }
