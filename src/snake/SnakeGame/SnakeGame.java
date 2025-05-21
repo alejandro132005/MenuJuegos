@@ -63,7 +63,7 @@ import java.awt.*;
          velocityY = 0;
          
  		//game timer
- 		gameLoop = new Timer(200, this); //how long it takes to start timer, milliseconds gone between frames 
+ 		gameLoop = new Timer(100, this); //how long it takes to start timer, milliseconds gone between frames 
          gameLoop.start();
  	}	
      
