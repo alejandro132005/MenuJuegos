@@ -163,7 +163,7 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_imagenJuego1MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        SnakeGame juegoSnake = new SnakeGame();
+        SnakeGameWindow juegoSnake = new SnakeGameWindow();
         juegoSnake.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked

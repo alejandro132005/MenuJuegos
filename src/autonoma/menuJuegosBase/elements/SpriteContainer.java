@@ -4,6 +4,7 @@
  */
 package autonoma.menuJuegosBase.elements;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -32,7 +33,17 @@ public class SpriteContainer extends Sprite implements GraphicContainer{
         super(path, x, y, height, width);
         
         sprites = new ArrayList<Sprite>();
-    }   
+    } 
+
+    public SpriteContainer(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) {
+        super(x, y, height, width, color, gameContainer);
+    }
+
+    public SpriteContainer(int x, int y) {
+        super(x, y);
+    }
+    
+    
     
     /**
      * metodo para agregar un sprite al arreglo
