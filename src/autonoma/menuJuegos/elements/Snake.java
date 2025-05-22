@@ -4,6 +4,7 @@
  */
 package autonoma.menuJuegos.elements;
 
+import autonoma.menuJuegos.gui.SnakeGameWindow;
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.SpriteContainer;
 import java.awt.Color;
@@ -39,17 +40,18 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     private boolean gameOver = false;
     private int puntaje = 0;
     Random random;
+    Sonido sonido;
 
-    public Snake(int x, int y, int width, int height, Color color, GraphicContainer container) {
+    public Snake(int x, int y, int width, int height, Color color, GraphicContainer container){
         super(x, y, width, height, color, container);
         serpiente = new Serpiente(5, 5);
         comida = new ComidaSnake(width, height, tamanoCuadro);
         random = new Random();
+        this.sonido = new Sonido();
         addComida();
     }
 
     public void draw(Graphics g) {
-        //Grid Lines
         g.setColor(Color.black);
         g.fillRect(0,0,this.width,this.height);
         g.setColor(Color.GRAY);
@@ -58,21 +60,17 @@ public class Snake extends SpriteContainer implements GraphicContainer {
             g.drawLine(0, i*tamanoCuadro, this.width, i*tamanoCuadro); 
         }
  
-        //Food
         g.setColor(Color.red);
         g.fill3DRect(comida.getMaxWidth()*tamanoCuadro, comida.getMaxHeight()*tamanoCuadro, tamanoCuadro, tamanoCuadro, true);
  
-        //Snake Head
         g.setColor(Color.green);
         g.fill3DRect(this.serpiente.getCabeza().getX()*tamanoCuadro, this.serpiente.getCabeza().getY()*tamanoCuadro, tamanoCuadro, tamanoCuadro, true);
          
-        //Snake Body
         for (int i = 0; i < this.serpiente.getCuerpo().size(); i++) {
             Cuadro parteSerpiente = this.serpiente.getCuerpo().get(i);
             g.fill3DRect(parteSerpiente.getX()*tamanoCuadro, parteSerpiente.getY()*tamanoCuadro, tamanoCuadro, tamanoCuadro, true);
         }
  
-        //Score
         g.setFont(new Font("Arial", Font.PLAIN, 20));
         if (gameOver) {
             g.setColor(Color.red);
@@ -94,15 +92,20 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         this.comida.setMaxHeight(comidaY);
     }
     
-    public void verificarComida() {
+    public void verificarComida(){
         Cuadro cabeza = this.serpiente.getCabeza();
         if (cabeza.getX() == comida.getMaxWidth() && cabeza.getY() == comida.getMaxHeight()) {
+            this.sonido.reproducir("SnakeEating.wav");
             this.serpiente.grow(new Cuadro(comida.getMaxWidth(), comida.getMaxHeight()));
             addComida();
+            try {
+                this.actualizarPuntaje(this.serpiente.getCuerpo().size());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    
     public void verificarColisionConBordes() {
         Cuadro cabeza = this.serpiente.getCabeza();
         int x = cabeza.getX();
@@ -115,28 +118,50 @@ public class Snake extends SpriteContainer implements GraphicContainer {
             this.gameOver = true;
         }
     }
+    
     /**
      * Maneja eventos del teclado para ejecutar acciones en el juego
      * @param e evento de teclado
      * @throws IOException
      */
     public void handleKey(KeyEvent e) throws IOException {
-        if (e.getKeyCode() == KeyEvent.VK_W && this.serpiente.getVelocidadX() != 1) {
-             this.serpiente.setVelocidadX(0);
-             this.serpiente.setVelocidadY(-1);
-         }
-         else if (e.getKeyCode() == KeyEvent.VK_S && this.serpiente.getVelocidadY() != -1) {
-             this.serpiente.setVelocidadX(0);
-             this.serpiente.setVelocidadY(1);
-         }
-         else if (e.getKeyCode() == KeyEvent.VK_A && this.serpiente.getVelocidadX() != 1) {
-             this.serpiente.setVelocidadX(-1);
-             this.serpiente.setVelocidadY(0);
-         }
-         else if (e.getKeyCode() == KeyEvent.VK_D && this.serpiente.getVelocidadX() != -1) {
-             this.serpiente.setVelocidadX(1);
-             this.serpiente.setVelocidadY(0);
-         }
+        if (e.getKeyCode() == KeyEvent.VK_W && this.serpiente.getVelocidadY() != 1) {
+            this.serpiente.setVelocidadX(0);
+            this.serpiente.setVelocidadY(-1);
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_S && this.serpiente.getVelocidadY() != -1) {
+            this.serpiente.setVelocidadX(0);
+            this.serpiente.setVelocidadY(1);
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_A && this.serpiente.getVelocidadX() != 1) {
+            this.serpiente.setVelocidadX(-1);
+            this.serpiente.setVelocidadY(0);
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_D && this.serpiente.getVelocidadX() != -1) {
+            this.serpiente.setVelocidadX(1);
+            this.serpiente.setVelocidadY(0);
+        }
+    }
+    
+    public void reiniciarJuego() throws IOException {
+        this.puntaje = 0;
+        this.serpiente.getCuerpo().clear(); 
+        this.setGameOver(false);
+        this.actualizarPuntaje(0);
+        serpiente = new Serpiente(5, 5);
+        comida = new ComidaSnake(width, height, tamanoCuadro);
+        random = new Random();
+        addComida();
+
+        this.refresh();
+    }
+    
+    public void verificarJuego() throws IOException{
+        if (this.gameOver){
+            if (this.getGameContainer() instanceof SnakeGameWindow ventanaSnake){
+                ventanaSnake.reiniciar();
+            }
+        }
     }
     
     /**
@@ -147,7 +172,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     public void actualizarPuntaje(int nuevoPuntaje) throws IOException {
         this.puntaje = nuevoPuntaje;
 
-        EscritorArchivoTextoPlano escritor = new EscritorArchivoTextoPlano("puntaje.txt");
+        EscritorArchivoTextoPlano escritor = new EscritorArchivoTextoPlano("puntajeSnake.txt");
         escritor.escribir(Integer.toString(nuevoPuntaje));
     }
 
@@ -158,7 +183,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
      */
     public String mostrarPuntajeActual() throws IOException {
         lector = new LectorArchivoTextoPlano(); 
-        return lector.leer("puntaje.txt");
+        return lector.leer("puntajeSnake.txt");
     }
 
     /**

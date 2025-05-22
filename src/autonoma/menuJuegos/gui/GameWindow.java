@@ -9,10 +9,6 @@ package autonoma.menuJuegos.gui;
  * @author Camila
  */
 public class GameWindow extends javax.swing.JFrame {
-
-    /**
-     * Creates new form GameWindow
-     */
     public GameWindow() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -163,7 +159,7 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_imagenJuego1MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        SnakeGameWindow juegoSnake = new SnakeGameWindow();
+        SnakeGameWindow juegoSnake = new SnakeGameWindow(this);
         juegoSnake.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked

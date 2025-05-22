@@ -4,135 +4,74 @@
  */
 package autonoma.menuJuegos.elements;
 
+import autonoma.menuJuegos.gui.SnakeGameWindow;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author aleja
  */
 public class HiloMoverSnake implements Runnable{
     private Snake snake;
-    private Thread thread;
-    private final int FPS = 5;
-    private volatile boolean running = false;
-
+    private boolean running = false;
+    private int velocidad = 250; 
+    private int ultimoNivel = 0;
+    private Sonido sonido;
+    
     public HiloMoverSnake(Snake snake) {
         this.snake = snake;
+        this.sonido = new Sonido();
     }
 
+    @Override
+    public void run() {
+        running = true;
+        while (running) {
+            if (!snake.isGameOver()) {
+//                this.sonido.reproducir("SoundSnake.wav");
+                snake.getSerpiente().move();
+                
+                if (snake.getSerpiente().collidesWithSelf()) {
+                    snake.setGameOver(true);
+                }
+                
+                int nivelActual = snake.getPuntaje() / 10;
+                if (nivelActual > ultimoNivel) {
+                    velocidad -= 20;
+                    if (velocidad < 50) velocidad = 50;
+                    ultimoNivel = nivelActual;
+                }
+                snake.verificarComida();
+                snake.verificarColisionConBordes();
+                snake.refresh();
+            } 
+            else {
+                try {
+                    this.snake.verificarJuego();
+                } catch (IOException ex) {
+                    Logger.getLogger(HiloMoverSnake.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            try {
+                Thread.sleep(velocidad);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+    
     public void start() {
         running = true;
-        thread = new Thread(this);
-        thread.start();
+        Thread hilo = new Thread(this);
+        hilo.start();
     }
 
     public void stop() {
         running = false;
     }
-
-    @Override
-    public void run() {
-        long targetTime = 1000 / FPS;
-
-        while (running) {
-            long startTime = System.currentTimeMillis();
-
-            this.snake.getSerpiente().move();
-            this.snake.verificarColisionConBordes();
-            this.snake.verificarComida();
-            this.snake.refresh();
-
-            if (this.snake.isGameOver()) {
-                running = false;
-            }
-
-            long elapsed = System.currentTimeMillis() - startTime;
-            long waitTime = targetTime - elapsed;
-            if (waitTime < 0) waitTime = 5;
-
-            try {
-                Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
 
-//    private Snake snake;
-//    /** 
-//    * bandera que indica si el hilo se esta ejecutando
-//    */
-//    private boolean running;
-//    
-//    /** 
-//    * bandera que indica si el hilo esta temporalmente pausado
-//    */
-//    private boolean paused;
-//
-//    /**
-//    * Inicializa los atributos de la clase HiloMoverPulgas
-//    * @param snake
-//    */
-//    public HiloMoverSnake(Snake snake) {
-//        this.snake = snake;
-//        running = false;
-//        paused = false;
-//    }
-//    
-//    /**
-//    * Sobrescribe el metodo run() de la interfaz Runnable
-//    */
-//    @Override
-//    public void run() {
-//        running = true;
-//        
-//        while(isRunning())
-//        {
-//            try {
-//                this.snake.getSerpiente().move();
-////            this.snake.refresh();
-//                Thread.sleep(300);
-//            } catch (InterruptedException ex) {}
-//            
-//            if(isPaused())
-//                continue;
-//            
-//        }
-//    }
-//    
-//    /**
-//     * Retorna el estado de ejecucion
-//     * @return running
-//    */
-//     public boolean isRunning() {
-//        return running;
-//    }
-//
-//    /**
-//    * detiene la ejecucion del hilo
-//    */
-//    public void stop() {
-//        this.running = false;
-//    }
-//
-//    /**
-//     * retorna si el hilo esta en pausa
-//     * @return paused
-//     */
-//    public boolean isPaused() {
-//        return paused;
-//    }
-//
-//    /**
-//    * Pausa la ejecucion del hilo
-//    */
-//    public void pause() {
-//        this.paused = true;
-//    }
-//
-//     /**
-//     * Reanuda la ejecucion del hilo
-//     */
-//    public void unpause() {
-//        this.paused = false;
-//    }
 
