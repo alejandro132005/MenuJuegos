@@ -53,7 +53,7 @@ public class HiloMoverSnake implements Runnable{
             }
         }
     }
-    }
+}
 
 //    private Snake snake;
 //    /** 
