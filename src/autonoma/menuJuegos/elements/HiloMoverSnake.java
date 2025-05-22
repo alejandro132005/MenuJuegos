@@ -11,7 +11,7 @@ package autonoma.menuJuegos.elements;
 public class HiloMoverSnake implements Runnable{
     private Snake snake;
     private Thread thread;
-    private final int FPS = 10;
+    private final int FPS = 5;
     private volatile boolean running = false;
 
     public HiloMoverSnake(Snake snake) {
@@ -36,6 +36,8 @@ public class HiloMoverSnake implements Runnable{
             long startTime = System.currentTimeMillis();
 
             this.snake.getSerpiente().move();
+            this.snake.verificarColisionConBordes();
+            this.snake.verificarComida();
             this.snake.refresh();
 
             if (this.snake.isGameOver()) {

@@ -30,7 +30,6 @@ public class Serpiente{
         cabeza.setY(cabeza.getY() + velocidadY);
     }
 
-
     public void grow(Cuadro comida) {
         cuerpo.add(new Cuadro(comida.getX(), comida.getY()));
     }

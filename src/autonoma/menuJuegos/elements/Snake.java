@@ -35,7 +35,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     
     private Serpiente serpiente;
     private ComidaSnake comida;
-    private int tamanoCuadro = 30;
+    private int tamanoCuadro = 25;
     private boolean gameOver = false;
     private int puntaje = 0;
     Random random;
@@ -44,7 +44,8 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         super(x, y, width, height, color, container);
         serpiente = new Serpiente(5, 5);
         comida = new ComidaSnake(width, height, tamanoCuadro);
-
+        random = new Random();
+        addComida();
     }
 
     public void draw(Graphics g) {
@@ -72,7 +73,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         }
  
         //Score
-        g.setFont(new Font("Arial", Font.PLAIN, 16));
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
         if (gameOver) {
             g.setColor(Color.red);
             g.drawString("Perdiste: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro -16, 50);
@@ -83,10 +84,37 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     }
     
     public void addComida(){
-        this.comida.setMaxWidth(random.nextInt(this.width/this.tamanoCuadro));
- 	this.comida.setMaxHeight(random.nextInt(this.width/this.tamanoCuadro));
+        int columnasDisponibles = this.width / this.tamanoCuadro;
+        int filasDisponibles = this.height / this.tamanoCuadro;
+
+        int comidaX = random.nextInt(columnasDisponibles);
+        int comidaY = random.nextInt(filasDisponibles);
+
+        this.comida.setMaxWidth(comidaX);
+        this.comida.setMaxHeight(comidaY);
+    }
+    
+    public void verificarComida() {
+        Cuadro cabeza = this.serpiente.getCabeza();
+        if (cabeza.getX() == comida.getMaxWidth() && cabeza.getY() == comida.getMaxHeight()) {
+            this.serpiente.grow(new Cuadro(comida.getMaxWidth(), comida.getMaxHeight()));
+            addComida();
+        }
     }
 
+    
+    public void verificarColisionConBordes() {
+        Cuadro cabeza = this.serpiente.getCabeza();
+        int x = cabeza.getX();
+        int y = cabeza.getY();
+
+        int limiteX = this.width / tamanoCuadro;
+        int limiteY = this.height / tamanoCuadro;
+
+        if (x < 0 || y < 0 || x >= limiteX || y >= limiteY) {
+            this.gameOver = true;
+        }
+    }
     /**
      * Maneja eventos del teclado para ejecutar acciones en el juego
      * @param e evento de teclado

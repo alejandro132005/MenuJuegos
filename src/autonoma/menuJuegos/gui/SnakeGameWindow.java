@@ -20,13 +20,15 @@ import java.util.logging.Logger;
  * @author Camila
  */
 public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContainer {
-    Snake ventana = new Snake(0, 0, 500, 500, Color.BLACK, null);
-    Thread hilo = new Thread(new HiloMoverSnake(this.ventana));
+    Snake ventana;
+    Thread hilo;
     public SnakeGameWindow() {
         initComponents();
         this.setSize(500,500);
         this.setLocationRelativeTo(null);
-        hilo.start();
+        this.ventana = new Snake(0, 0, 500, 500, Color.BLACK, this);
+        HiloMoverSnake hiloSnake = new HiloMoverSnake(this.ventana);
+        hiloSnake.start();
     }
     
     private void exitGame(){
