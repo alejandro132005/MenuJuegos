@@ -28,6 +28,8 @@ public class Serpiente{
 
         cabeza.setX(cabeza.getX() + velocidadX);
         cabeza.setY(cabeza.getY() + velocidadY);
+        System.out.println("Cabeza: (" + cabeza.getX() + ", " + cabeza.getY() + ")");
+
     }
 
 
