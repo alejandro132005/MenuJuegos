@@ -5,7 +5,10 @@
 package autonoma.menuJuegos.elements;
 
 import autonoma.menuJuegosBase.elements.Sprite;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -17,6 +20,7 @@ public abstract class Personaje extends Sprite {
     private char direccion = 'U'; // U D L R
     private int velocidadX = 0;
     private int velocidadY = 0;
+    private BufferedImage image;
     
     public Personaje(String path, int x, int y, int height, int width) {
         super(path, x, y, height, width);
@@ -67,5 +71,15 @@ public abstract class Personaje extends Sprite {
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+        if (image != null) {
+            g.drawImage(image, x, y, width, height, null);
+        } else {
+            g.setColor(color != null ? color : Color.BLACK);
+            g.fillRect(x, y, width, height);
+        }
     }
 }

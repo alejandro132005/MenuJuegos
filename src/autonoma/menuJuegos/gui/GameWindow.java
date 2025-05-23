@@ -165,7 +165,7 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        PacmanGame juegoPacman = new PacmanGame();
+        PacmanGameWindow juegoPacman = new PacmanGameWindow(this);
         juegoPacman.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked

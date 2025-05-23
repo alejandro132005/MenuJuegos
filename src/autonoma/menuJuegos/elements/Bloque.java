@@ -7,25 +7,34 @@ package autonoma.menuJuegos.elements;
 import autonoma.menuJuegosBase.elements.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
  *
- * @author Camila
+ * @author maria
  */
-public class Jugador extends Personaje{
-    
+public class Bloque extends Sprite {
+    public int x, y, width, height;
     private BufferedImage image;
     
-    public Jugador(String path, int x, int y, int height, int width) {
+
+    public Bloque(String path, int x, int y, int height, int width) {
         super(path, x, y, height, width);
         try {
             this.image = ImageIO.read(getClass().getResource(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+   
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
     }
 
     @Override
@@ -38,4 +47,5 @@ public class Jugador extends Personaje{
         }
         
     }
+    
 }
