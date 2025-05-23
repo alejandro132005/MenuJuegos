@@ -4,6 +4,10 @@
  */
 package autonoma.menuJuegos.gui;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Camila
@@ -165,8 +169,13 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        PacmanGameWindow juegoPacman = new PacmanGameWindow(this);
-        juegoPacman.setVisible(true);
+        PacmanGameWindow juegoPacman;
+        try {
+            juegoPacman = new PacmanGameWindow(this);
+            juegoPacman.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 

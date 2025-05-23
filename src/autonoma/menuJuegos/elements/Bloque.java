@@ -18,9 +18,7 @@ import javax.imageio.ImageIO;
  * @author maria
  */
 public class Bloque extends Sprite {
-    public int x, y, width, height;
     private BufferedImage image;
-    
 
     public Bloque(String path, int x, int y, int height, int width) {
         super(path, x, y, height, width);
@@ -30,8 +28,6 @@ public class Bloque extends Sprite {
             e.printStackTrace();
         }
     }
-    
-   
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
@@ -45,7 +41,5 @@ public class Bloque extends Sprite {
             g.setColor(color != null ? color : Color.BLACK);
             g.fillRect(x, y, width, height);
         }
-        
     }
-    
 }

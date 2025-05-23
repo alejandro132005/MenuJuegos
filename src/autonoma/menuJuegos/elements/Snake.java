@@ -9,15 +9,13 @@ import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.SpriteContainer;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.Random;
-import javax.swing.Timer;
 
 /**
  *
@@ -71,14 +69,20 @@ public class Snake extends SpriteContainer implements GraphicContainer {
             g.fill3DRect(parteSerpiente.getX()*tamanoCuadro, parteSerpiente.getY()*tamanoCuadro, tamanoCuadro, tamanoCuadro, true);
         }
  
-        g.setFont(new Font("Arial", Font.PLAIN, 20));
-        if (gameOver) {
-            g.setColor(Color.red);
-            g.drawString("Perdiste: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro -16, 50);
-        }
-        else {
-            g.drawString("Puntaje: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 16, 50);
-        }
+        try {
+            InputStream is = getClass().getResourceAsStream("/autonoma/menuJuegos/fonts/ARCADE.TTF");
+            Font fuente = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(35f);
+            g.setFont(fuente);
+            if (gameOver) {
+                g.setColor(Color.RED);
+                g.drawString("Perdiste: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 5 , 65);
+            } else {
+                g.setColor(Color.yellow); 
+                g.drawString("Puntaje: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 5, 65);
+            }
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }  
     }
     
     public void addComida(){

@@ -14,8 +14,6 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,13 +73,6 @@ public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContai
         }
     }
 
-//    @Override
-//    public void paint(Graphics g) {
-//        super.paint(g);
-//        setBackground(Color.black);
-//        this.ventana.draw(g);
-//    }
-    
     @Override
     public void update(Graphics g){
         gImagenBuffer.setColor(Color.BLACK);
