@@ -35,15 +35,9 @@ public class SpriteContainer extends Sprite implements GraphicContainer{
         sprites = new ArrayList<Sprite>();
     } 
 
-    public SpriteContainer(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) {
-        super(x, y, height, width, color, gameContainer);
+    public SpriteContainer(int x, int y, int height, int width) {
+        super(x, y, height, width);
     }
-
-    public SpriteContainer(int x, int y) {
-        super(x, y);
-    }
-    
-    
     
     /**
      * metodo para agregar un sprite al arreglo

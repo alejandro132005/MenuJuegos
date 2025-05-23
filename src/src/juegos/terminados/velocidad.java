@@ -15,7 +15,7 @@ import java.awt.*;
  import java.util.Random;
  import javax.swing.*;
  
- public class PacManGame extends JPanel implements ActionListener, KeyListener {
+ public class velocidad extends JPanel implements ActionListener, KeyListener {
      class Block {
          int x;
          int y;
@@ -135,7 +135,7 @@ import java.awt.*;
      int lives = 3;
      boolean gameOver = false;
  
-     PacManGame() {
+     velocidad() {
          setPreferredSize(new Dimension(boardWidth, boardHeight));
          setBackground(Color.BLACK);
          addKeyListener(this);

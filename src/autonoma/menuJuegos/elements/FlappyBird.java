@@ -8,6 +8,6 @@ package autonoma.menuJuegos.elements;
  *
  * @author Camila
  */
-public class FlappyBird implements Juego {
+public class FlappyBird{
     
 }
