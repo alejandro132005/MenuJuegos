@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,20 +23,29 @@ import javax.swing.JOptionPane;
  * @author Camila
  */
 public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContainer {
-    Snake ventana;
-    GameWindow ventanaPrincipal;
-    HiloMoverSnake hiloSnake;
-    Sonido sonido;
+    private Snake ventana;
+    private GameWindow ventanaPrincipal;
+    private HiloMoverSnake hiloSnake;
+    private Sonido sonido;
+    private BufferedImage imagenBuffer;
+    private Graphics gImagenBuffer;
+     public static final int _WIDTH = 500;
+    /**
+    *  Constante que define el alto de la ventana principal
+    */
+    public static final int _HEIGHT = 500;
 
     public SnakeGameWindow(GameWindow ventanaPrincipal) {
         initComponents();
-        this.setSize(500, 500);
+        this.setSize(_WIDTH,_HEIGHT);
         this.setLocationRelativeTo(null);
         this.ventana = new Snake(0, 0, 500, 500, Color.BLACK, this);
         this.sonido = new Sonido();
         this.hiloSnake = new HiloMoverSnake(this.ventana);
         this.hiloSnake.start();
         this.ventanaPrincipal = ventanaPrincipal;
+        this.imagenBuffer = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+        this.gImagenBuffer = this.imagenBuffer.getGraphics();
     }
 
     private void exitGame() {
@@ -65,11 +75,28 @@ public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContai
         }
     }
 
+//    @Override
+//    public void paint(Graphics g) {
+//        super.paint(g);
+//        setBackground(Color.black);
+//        this.ventana.draw(g);
+//    }
+    
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        setBackground(Color.black);
-        this.ventana.draw(g);
+    public void update(Graphics g){
+        gImagenBuffer.setColor(Color.BLACK);
+        gImagenBuffer.fillRect(0, 0, imagenBuffer.getWidth(), imagenBuffer.getHeight());
+        ventana.draw(gImagenBuffer);
+        g.drawImage(imagenBuffer, 0, 0, this);
+    }
+    
+    /**
+    * metodo paint que dibuja todos los elementos en la ventana
+    */
+    @Override
+    public void paint(Graphics g) { 
+        update(g); 
+               
     }
 
     /**

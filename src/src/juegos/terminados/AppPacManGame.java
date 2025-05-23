@@ -25,7 +25,7 @@ import javax.swing.JFrame;
          frame.setResizable(false);
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
-         PacManGame pacmanGame = new PacManGame();
+         velocidad pacmanGame = new velocidad();
          frame.add(pacmanGame);
          frame.pack();
          pacmanGame.requestFocus();
