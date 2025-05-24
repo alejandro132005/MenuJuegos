@@ -126,6 +126,4 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
             s.paint(g);
         }
     }
-
-
 }
