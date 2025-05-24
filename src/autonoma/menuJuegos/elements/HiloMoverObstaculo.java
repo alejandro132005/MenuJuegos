@@ -4,14 +4,12 @@
  */
 package autonoma.menuJuegos.elements;
 
-import java.io.IOException;
-
 /**
  *
  * @author maria
  */
 public class HiloMoverObstaculo implements Runnable{
-    private FlappyBird flappyBird;
+        private FlappyBird flappyBird;
     private boolean running = false;
     private int velocidad = 300; 
     private int ultimoNivel = 0;

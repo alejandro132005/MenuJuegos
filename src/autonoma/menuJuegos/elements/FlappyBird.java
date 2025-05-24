@@ -5,7 +5,6 @@
 package autonoma.menuJuegos.elements;
 
 import autonoma.menuJuegosBase.elements.GraphicContainer;
-import autonoma.menuJuegosBase.elements.Sprite;
 import autonoma.menuJuegosBase.elements.SpriteContainer;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
-
 
 /**
  * Clase que representa el juego FlappyBird como contenedor gráfico.

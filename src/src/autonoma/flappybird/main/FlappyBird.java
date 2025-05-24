@@ -103,7 +103,7 @@ import java.awt.*;
          placePipeTimer.start();
          
  		//game timer
- 		gameLoop = new Timer(1000/60, this); //how long it takes to start timer, milliseconds gone between frames 
+ 	gameLoop = new Timer(1000/60, this); //how long it takes to start timer, milliseconds gone between frames 
          gameLoop.start();
  	}
      
