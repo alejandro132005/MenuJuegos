@@ -129,12 +129,12 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
     }
 
     public void detectarColisiones() throws IOException {
-//        for (Bloque bloque : bloques) {
-//            if (jugador.getBounds().intersects(bloque.getBounds())) {
-//                jugador.reset();
-//                break;
-//            }
-//        }
+        for (Bloque bloque : bloques) {
+            if (jugador.getBounds().intersects(bloque.getBounds())) {
+                jugador.reset();
+                break;
+            }
+        }
 
         for (Fantasma fantasma : fantasmas) {
             if (jugador.getBounds().intersects(fantasma.getBounds())) {
