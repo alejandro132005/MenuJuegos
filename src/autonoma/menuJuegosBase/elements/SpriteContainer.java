@@ -37,10 +37,12 @@ public class SpriteContainer extends Sprite implements GraphicContainer{
 
     public SpriteContainer(int x, int y, int height, int width) {
         super(x, y, height, width);
+        sprites = new ArrayList<Sprite>();
     }
 
     public SpriteContainer(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) {
         super(x, y, height, width, color, gameContainer);
+        sprites = new ArrayList<Sprite>();
     }
     
     
