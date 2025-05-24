@@ -5,6 +5,7 @@
 package autonoma.menuJuegos.elements;
 
 import java.io.IOException;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -29,7 +30,9 @@ public class HiloMoverObstaculo implements Runnable{
         while (running) {
             if (!flappyBird.isGameOver()) {
 //                this.sonido.reproducir("SoundSnake.wav");
-                flappyBird.moverObstaculos();
+                
+                flappyBird.actualizarJuego();
+                flappyBird.refresh();
                 
                 int nivelActual = flappyBird.getPuntaje() / 10;
                 if (nivelActual > ultimoNivel) {

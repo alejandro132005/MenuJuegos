@@ -68,4 +68,62 @@ public class Obstaculo extends Sprite {
             g.drawString("Sin Imagen", x + 5, y + 15);
         }
     }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public GraphicContainer getGameContainer() {
+        return gameContainer;
+    }
+
+    public void setGameContainer(GraphicContainer gameContainer) {
+        this.gameContainer = gameContainer;
+    }
+    
+    
 }
