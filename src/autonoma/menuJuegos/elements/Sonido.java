@@ -13,7 +13,7 @@ import javax.sound.sampled.*;
  * @author Camila
  */
 public class Sonido {
-    private Clip clipLoop;  // Clip para música en loop (música de fondo)
+    private Clip clipLoop;  // Clip para música en ,,loop (música de fondo)
     
     public void reproducir(String nombreSonido) {
         try {
@@ -101,7 +101,7 @@ public class Sonido {
             clipLoop.loop(Clip.LOOP_CONTINUOUSLY);
             clipLoop.start();
             
-            System.out.println("Música iniciada correctamente");
+            System.out.println("Musica iniciada correctamente");
             
         } catch (UnsupportedAudioFileException e) {
             System.err.println("" + nombreSonido);
