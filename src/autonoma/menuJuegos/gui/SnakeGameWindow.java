@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -29,17 +28,18 @@ public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContai
     private Sonido sonido;
     private BufferedImage imagenBuffer;
     private Graphics gImagenBuffer;
-     public static final int _WIDTH = 500;
+    public static final int _WIDTH = 665;
     /**
     *  Constante que define el alto de la ventana principal
     */
-    public static final int _HEIGHT = 500;
+    public static final int _HEIGHT = 665;
 
     public SnakeGameWindow(GameWindow ventanaPrincipal) {
+        setUndecorated(true);
         initComponents();
         this.setSize(_WIDTH,_HEIGHT);
         this.setLocationRelativeTo(null);
-        this.ventana = new Snake(0, 0, 500, 500, Color.BLACK, this);
+        this.ventana = new Snake(0, 0, 665, 665, Color.BLACK, this);
         this.sonido = new Sonido();
         
         this.sonido.reproducirLoop("SnakeSoundGame.wav");
@@ -126,8 +126,6 @@ public class SnakeGameWindow extends javax.swing.JFrame implements GraphicContai
 
         pack();
     }// </editor-fold>                    
-
-    
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
         try {

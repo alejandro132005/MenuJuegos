@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Camila
+ * 
  */
 public class PacmanGameWindow extends javax.swing.JFrame implements GraphicContainer {
     private Pacman ventana;
@@ -33,11 +34,15 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     public static final int _HEIGHT = 685;
     
     public PacmanGameWindow(GameWindow ventanaPrincipal) throws IOException {
+        setUndecorated(true);
         initComponents();
         this.setSize(_WIDTH,_HEIGHT);
         this.setLocationRelativeTo(null);
         this.ventana = new Pacman(0, 0, 665, 685, Color.BLACK, this);
         this.sonido = new Sonido();
+        
+        this.sonido.reproducirLoop("PacManFondo.wav");
+        
         this.hiloPacman = new HiloMoverPacman(this.ventana);
         this.hiloFantasmas = new HiloMoverFantasmas(this.ventana);
         this.hiloPacman.start();
@@ -48,6 +53,7 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     }
     
     private void exitGame() {
+        this.sonido.detenerLoop();
         this.hiloPacman.stop();
         ventanaPrincipal = new GameWindow ();
         ventanaPrincipal.setVisible(true);
@@ -58,6 +64,7 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
         if (this.ventana.isGameOver()) {
             String opcion;
             do {
+                this.sonido.reproducirLoop("PacManFondo.wav");
                 if(this.ventana.isGameOver()){
                     this.gameOver();
                 }
@@ -80,12 +87,14 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     
     public void win (){
         if (this.ventana.getComidas().size() == 0){
+            this.sonido.detenerLoop();
             this.sonido.reproducir("PacmanWin.wav");
             JOptionPane.showMessageDialog(null, "GANASTE!! " + this.ventana.getPuntaje());
         }
     }
     
     public void gameOver (){
+        this.sonido.detenerLoop();
         this.sonido.reproducir("PacmanGameOver.wav");
         JOptionPane.showMessageDialog(null, "Perdiste, tu puntaje fue: " + this.ventana.getPuntaje());
     }

@@ -13,20 +13,19 @@ import javax.sound.sampled.*;
  * @author Camila
  */
 public class Sonido {
-    private Clip clipLoop;  // Clip para música en loop (música de fondo)
+    private Clip clipLoop;  // Clip para música en ,,loop (música de fondo)
     
     public void reproducir(String nombreSonido) {
         try {
             URL sonidoURL = getClass().getResource("/autonoma/menuJuegos/sounds/" + nombreSonido);
             if (sonidoURL == null) {
-                System.err.println("No se encontró el archivo de sonido: " + nombreSonido);
+                System.err.println("No se encontro el archivo de sonido: " + nombreSonido);
                 return;
             }
             
             // Verificar formatos compatibles
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(sonidoURL);
             AudioFormat format = audioStream.getFormat();
-            System.out.println("Formato del archivo: " + format);
             
             // Convertir a formato compatible si es necesario
             AudioFormat targetFormat = new AudioFormat(
@@ -61,17 +60,14 @@ public class Sonido {
             
             URL sonidoURL = getClass().getResource("/autonoma/menuJuegos/sounds/" + nombreSonido);
             if (sonidoURL == null) {
-                System.err.println("No se encontró el archivo de sonido: " + nombreSonido);
+                System.err.println("No se encontro el archivo de sonido: " + nombreSonido);
                 System.err.println("Ruta buscada: /autonoma/menuJuegos/sounds/" + nombreSonido);
                 return;
             }
             
-            System.out.println("Reproduciendo música: " + nombreSonido);
-            
             // Obtener información del formato
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(sonidoURL);
             AudioFormat originalFormat = audioStream.getFormat();
-            System.out.println("Formato original: " + originalFormat);
             
             // Crear formato de destino compatible
             AudioFormat targetFormat = new AudioFormat(
@@ -83,8 +79,6 @@ public class Sonido {
                 originalFormat.getSampleRate() == AudioSystem.NOT_SPECIFIED ? 44100 : originalFormat.getSampleRate(),
                 false // little endian
             );
-            
-            System.out.println("Formato destino: " + targetFormat);
             
             // Convertir el stream al formato compatible
             AudioInputStream convertedStream = AudioSystem.getAudioInputStream(targetFormat, audioStream);
@@ -100,8 +94,6 @@ public class Sonido {
             
             clipLoop.loop(Clip.LOOP_CONTINUOUSLY);
             clipLoop.start();
-            
-            System.out.println("Música iniciada correctamente");
             
         } catch (UnsupportedAudioFileException e) {
             System.err.println("" + nombreSonido);

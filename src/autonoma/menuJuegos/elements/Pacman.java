@@ -5,7 +5,6 @@
 package autonoma.menuJuegos.elements;
 
 import autonoma.menuJuegos.gui.PacmanGameWindow;
-import autonoma.menuJuegos.gui.SnakeGameWindow;
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.SpriteContainer;
 import java.awt.Color;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Pacman extends SpriteContainer implements GraphicContainer {
     /**
@@ -94,6 +92,7 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
                     case 'r':
                         fantasmas.add(new Fantasma("/autonoma/menuJuego/images/fantasmaRojo.png", x, y, tamanoCuadro, tamanoCuadro));
                         break;
+                        
                     case 'b':
                         fantasmas.add(new Fantasma("/autonoma/menuJuego/images/fantasmaAzul.png", x, y, tamanoCuadro, tamanoCuadro));
                         break;
@@ -104,7 +103,7 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
                         fantasmas.add(new Fantasma("/autonoma/menuJuego/images/fantasmaNaranja.png", x, y, tamanoCuadro, tamanoCuadro));
                         break;
                     case ' ':
-                        comidas.add(new ComidaPacman("/autonoma/menuJuego/images/powerFood.png", x, y, tamanoCuadro - 20, tamanoCuadro - 20)); 
+                        comidas.add(new ComidaPacman("/autonoma/menuJuego/images/powerFood.png", x, y, tamanoCuadro - 25, tamanoCuadro - 25)); 
                         break;
                 }
             }
@@ -113,28 +112,28 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
 
     public void handleKey(KeyEvent e) throws IOException {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 jugador.updateDirection('U');
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 jugador.updateDirection('D');
                 break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 jugador.updateDirection('L');
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 jugador.updateDirection('R');
                 break;
         }
     }
 
     public void detectarColisiones() throws IOException {
-//        for (Bloque bloque : bloques) {
-//            if (jugador.getBounds().intersects(bloque.getBounds())) {
-//                jugador.reset();
-//                break;
-//            }
-//        }
+        for (Bloque bloque : bloques) {
+            if (jugador.getBounds().intersects(bloque.getBounds())) {
+                jugador.reset();
+                break;
+            }
+        }
 
         for (Fantasma fantasma : fantasmas) {
             if (jugador.getBounds().intersects(fantasma.getBounds())) {
@@ -221,18 +220,7 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
         this.refresh();
     }
     
-    public void verificarJuego() throws IOException{
-//        if (this.gameOver){
-//            if (this.getGameContainer() instanceof PacmanGameWindow ventanaPacman){
-//                ventanaPacman.reiniciar();
-//            }
-//        }
-//        else{
-//            if (this.getGameContainer() instanceof PacmanGameWindow ventanaPacman){
-//                ventanaPacman.win();
-//            }
-//        }
-            
+    public void verificarJuego() throws IOException{            
         if (this.getGameContainer() instanceof PacmanGameWindow ventanaPacman){
             ventanaPacman.reiniciar();
         }
