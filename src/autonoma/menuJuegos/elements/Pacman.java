@@ -5,7 +5,6 @@
 package autonoma.menuJuegos.elements;
 
 import autonoma.menuJuegos.gui.PacmanGameWindow;
-import autonoma.menuJuegos.gui.SnakeGameWindow;
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.SpriteContainer;
 import java.awt.Color;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Pacman extends SpriteContainer implements GraphicContainer {
     /**
@@ -113,16 +111,16 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
 
     public void handleKey(KeyEvent e) throws IOException {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 jugador.updateDirection('U');
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 jugador.updateDirection('D');
                 break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 jugador.updateDirection('L');
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 jugador.updateDirection('R');
                 break;
         }
@@ -221,18 +219,7 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
         this.refresh();
     }
     
-    public void verificarJuego() throws IOException{
-//        if (this.gameOver){
-//            if (this.getGameContainer() instanceof PacmanGameWindow ventanaPacman){
-//                ventanaPacman.reiniciar();
-//            }
-//        }
-//        else{
-//            if (this.getGameContainer() instanceof PacmanGameWindow ventanaPacman){
-//                ventanaPacman.win();
-//            }
-//        }
-            
+    public void verificarJuego() throws IOException{            
         if (this.getGameContainer() instanceof PacmanGameWindow ventanaPacman){
             ventanaPacman.reiniciar();
         }

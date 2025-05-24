@@ -34,7 +34,6 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     private Random random;
     private BufferedImage background;
 
-
     public FlappyBird(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) {
         super(x, y, height, width, color, gameContainer);
         this.bird = new Bird(100, 200, 40, 40, Color.YELLOW, this);
