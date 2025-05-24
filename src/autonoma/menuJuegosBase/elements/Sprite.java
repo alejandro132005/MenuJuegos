@@ -221,4 +221,13 @@ public abstract class Sprite {
     public void setColor(Color color) {
         this.color = color;
     }
+    
+    public Rectangle getBounds() {
+    return new Rectangle(x, y, width, height);
+    }
+    public Color getColor() {
+    return color;
+    }
+
+
 }

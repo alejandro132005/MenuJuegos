@@ -157,7 +157,7 @@ public class GameWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void imagenJuego1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenJuego1MouseClicked
-        FlappyBirdGame juegoFlappyBird = new FlappyBirdGame();
+        FlappyBirdGameWindow juegoFlappyBird = new FlappyBirdGameWindow(this);
         juegoFlappyBird.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_imagenJuego1MouseClicked
