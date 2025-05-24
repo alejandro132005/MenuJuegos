@@ -92,6 +92,7 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
                     case 'r':
                         fantasmas.add(new Fantasma("/autonoma/menuJuego/images/fantasmaRojo.png", x, y, tamanoCuadro, tamanoCuadro));
                         break;
+                        
                     case 'b':
                         fantasmas.add(new Fantasma("/autonoma/menuJuego/images/fantasmaAzul.png", x, y, tamanoCuadro, tamanoCuadro));
                         break;
@@ -102,7 +103,7 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
                         fantasmas.add(new Fantasma("/autonoma/menuJuego/images/fantasmaNaranja.png", x, y, tamanoCuadro, tamanoCuadro));
                         break;
                     case ' ':
-                        comidas.add(new ComidaPacman("/autonoma/menuJuego/images/powerFood.png", x, y, tamanoCuadro - 20, tamanoCuadro - 20)); 
+                        comidas.add(new ComidaPacman("/autonoma/menuJuego/images/powerFood.png", x, y, tamanoCuadro - 25, tamanoCuadro - 25)); 
                         break;
                 }
             }

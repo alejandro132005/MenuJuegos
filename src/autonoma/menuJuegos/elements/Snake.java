@@ -34,7 +34,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     
     private Serpiente serpiente;
     private ComidaSnake comida;
-    private int tamanoCuadro = 25;
+    private int tamanoCuadro = 35;
     private boolean gameOver = false;
     private int puntaje = 0;
     Random random;
@@ -55,7 +55,8 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         g.setColor(Color.GRAY);
         for(int i = 0; i < this.width/tamanoCuadro; i++) {
             g.drawLine(i*tamanoCuadro, 0, i*tamanoCuadro, this.height);
-            g.drawLine(0, i*tamanoCuadro, this.width, i*tamanoCuadro); 
+            g.drawLine(0, i*tamanoCuadro
+                    , this.width, i*tamanoCuadro); 
         }
  
         g.setColor(Color.red);
@@ -71,14 +72,14 @@ public class Snake extends SpriteContainer implements GraphicContainer {
  
         try {
             InputStream is = getClass().getResourceAsStream("/autonoma/menuJuegos/fonts/ARCADE.TTF");
-            Font fuente = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(35f);
+            Font fuente = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
             g.setFont(fuente);
             if (gameOver) {
                 g.setColor(Color.RED);
-                g.drawString("Perdiste: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 5 , 65);
+                g.drawString("Perdiste: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 5 , 70);
             } else {
                 g.setColor(Color.yellow); 
-                g.drawString("Puntaje: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 5, 65);
+                g.drawString("Puntaje: " + String.valueOf(this.serpiente.getCuerpo().size()), tamanoCuadro - 5, 70);
             }
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
