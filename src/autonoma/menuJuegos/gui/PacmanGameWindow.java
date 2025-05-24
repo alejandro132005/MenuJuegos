@@ -4,12 +4,10 @@
  */
 package autonoma.menuJuegos.gui;
 
-import autonoma.menuJuegos.elements.HiloMoverSnake;
+import autonoma.menuJuegos.elements.HiloMoverFantasmas;
+import autonoma.menuJuegos.elements.HiloMoverPacman;
 import autonoma.menuJuegos.elements.Pacman;
-import autonoma.menuJuegos.elements.Snake;
 import autonoma.menuJuegos.elements.Sonido;
-import static autonoma.menuJuegos.gui.SnakeGameWindow._HEIGHT;
-import static autonoma.menuJuegos.gui.SnakeGameWindow._WIDTH;
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,46 +15,82 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Camila
  */
 public class PacmanGameWindow extends javax.swing.JFrame implements GraphicContainer {
-
     private Pacman ventana;
     private GameWindow ventanaPrincipal;
     private BufferedImage imagenBuffer;
-//    private HiloMoverPacman hiloPacman;
+    private HiloMoverPacman hiloPacman;
+    private HiloMoverFantasmas hiloFantasmas;
     private Sonido sonido;
     private Graphics gImagenBuffer;
-     public static final int _WIDTH = 500;
-    public static final int _HEIGHT = 500;
+     public static final int _WIDTH = 665;
+    public static final int _HEIGHT = 685;
     
-    public PacmanGameWindow(GameWindow ventanaPrincipal) {
+    public PacmanGameWindow(GameWindow ventanaPrincipal) throws IOException {
         initComponents();
         this.setSize(_WIDTH,_HEIGHT);
         this.setLocationRelativeTo(null);
-        this.ventana = new Pacman(0, 0, 500, 500, Color.BLACK, this);
+        this.ventana = new Pacman(0, 0, 665, 685, Color.BLACK, this);
         this.sonido = new Sonido();
-//        this.hiloPacman = new HiloMoverPacman(this.ventana);
-//        this.hiloPacman.start();
+        this.hiloPacman = new HiloMoverPacman(this.ventana);
+        this.hiloFantasmas = new HiloMoverFantasmas(this.ventana);
+        this.hiloPacman.start();
+        this.hiloFantasmas.start();
         this.ventanaPrincipal = ventanaPrincipal;
         this.imagenBuffer = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.gImagenBuffer = this.imagenBuffer.getGraphics();
     }
     
     private void exitGame() {
-//        this.hiloSnake.stop();
+        this.hiloPacman.stop();
         ventanaPrincipal = new GameWindow ();
         ventanaPrincipal.setVisible(true);
         this.dispose();
     }
     
+    public void reiniciar() throws IOException {
+        if (this.ventana.isGameOver()) {
+            String opcion;
+            do {
+                if(this.ventana.isGameOver()){
+                    this.gameOver();
+                }
+                else{
+                    this.win();
+                }
+                opcion = JOptionPane.showInputDialog(null, "¿Deseas reiniciar el juego? 1) sí  2) no");
+            } while (!"1".equals(opcion) && !"2".equals(opcion));
+
+            if ("1".equals(opcion)) {
+                this.ventana.reiniciarJuego();
+                this.setVisible(true);   
+                this.repaint();         
+            } else if ("2".equals(opcion)) {
+                this.hiloPacman.stop();
+                exitGame(); 
+            }
+        }
+    }
     
+    public void win (){
+        if (this.ventana.getComidas().size() == 0){
+            this.sonido.reproducir("PacmanWin.wav");
+            JOptionPane.showMessageDialog(null, "GANASTE!! " + this.ventana.getPuntaje());
+        }
+    }
     
+    public void gameOver (){
+        this.sonido.reproducir("PacmanGameOver.wav");
+        JOptionPane.showMessageDialog(null, "Perdiste, tu puntaje fue: " + this.ventana.getPuntaje());
+    }
     
-     @Override
+    @Override
     public void update(Graphics g){
         gImagenBuffer.setColor(Color.BLACK);
         gImagenBuffer.fillRect(0, 0, imagenBuffer.getWidth(), imagenBuffer.getHeight());
@@ -65,13 +99,13 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     }
     
     /**
-    * metodo paint que dibuja todos los elementos en la ventana
+    * Metodo paint que dibuja todos los elementos en la ventana
     */
     @Override
     public void paint(Graphics g) { 
-        update(g); 
-               
+        update(g);        
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -124,8 +158,7 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     public Rectangle getBoundaries() {
         return this.getBounds(); 
     }
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

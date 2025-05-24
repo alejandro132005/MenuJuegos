@@ -9,17 +9,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  *
  * @author Camila
  */
 public abstract class Personaje extends Sprite {
-    private int inicioX;
-    private int inicioY;
-    private char direccion = 'U'; // U D L R
-    private int velocidadX = 0;
-    private int velocidadY = 0;
+    protected int inicioX;
+    protected int inicioY;
+    protected char direccion = 'U';
+    protected int velocidadX = 0;
+    protected int velocidadY = 0;
     private BufferedImage image;
     
     public Personaje(String path, int x, int y, int height, int width) {
@@ -28,6 +29,8 @@ public abstract class Personaje extends Sprite {
         this.inicioX = x;
     }
     
+    public abstract void move(List<Bloque> walls);
+    public abstract void move(Jugador jugador);
     
     public void updateDirection(char direccionNueva) {
         char prevDirection = this.direccion;
@@ -35,11 +38,9 @@ public abstract class Personaje extends Sprite {
         updateVelocity();
         this.x += velocidadX;
         this.y += velocidadY;
-
     }
 
     public void updateVelocity() {
-        // Ejemplo: velocidad base, debería ajustarse según el tamaño o velocidad del juego
         int speed = 8;
 
         switch (direccion) {

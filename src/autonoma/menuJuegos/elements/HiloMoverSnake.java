@@ -51,7 +51,7 @@ public class HiloMoverSnake implements Runnable{
                 try {
                     this.snake.verificarJuego();
                 } catch (IOException ex) {
-                    Logger.getLogger(HiloMoverSnake.class.getName()).log(Level.SEVERE, null, ex);
+                    
                 }
             }
             
