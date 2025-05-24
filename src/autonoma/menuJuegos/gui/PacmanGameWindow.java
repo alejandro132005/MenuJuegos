@@ -38,6 +38,9 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
         this.setLocationRelativeTo(null);
         this.ventana = new Pacman(0, 0, 665, 685, Color.BLACK, this);
         this.sonido = new Sonido();
+        
+        this.sonido.reproducirLoop("PacManFondo.wav");
+        
         this.hiloPacman = new HiloMoverPacman(this.ventana);
         this.hiloFantasmas = new HiloMoverFantasmas(this.ventana);
         this.hiloPacman.start();
@@ -58,6 +61,7 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
         if (this.ventana.isGameOver()) {
             String opcion;
             do {
+                this.sonido.reproducirLoop("PacManFondo.wav");
                 if(this.ventana.isGameOver()){
                     this.gameOver();
                 }

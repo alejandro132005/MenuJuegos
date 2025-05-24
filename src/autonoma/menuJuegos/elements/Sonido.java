@@ -19,7 +19,7 @@ public class Sonido {
         try {
             URL sonidoURL = getClass().getResource("/autonoma/menuJuegos/sounds/" + nombreSonido);
             if (sonidoURL == null) {
-                System.err.println("No se encontró el archivo de sonido: " + nombreSonido);
+                System.err.println("No se encontro el archivo de sonido: " + nombreSonido);
                 return;
             }
             
@@ -61,12 +61,12 @@ public class Sonido {
             
             URL sonidoURL = getClass().getResource("/autonoma/menuJuegos/sounds/" + nombreSonido);
             if (sonidoURL == null) {
-                System.err.println("No se encontró el archivo de sonido: " + nombreSonido);
+                System.err.println("No se encontro el archivo de sonido: " + nombreSonido);
                 System.err.println("Ruta buscada: /autonoma/menuJuegos/sounds/" + nombreSonido);
                 return;
             }
             
-            System.out.println("Reproduciendo música: " + nombreSonido);
+            System.out.println("Reproduciendo musica: " + nombreSonido);
             
             // Obtener información del formato
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(sonidoURL);
