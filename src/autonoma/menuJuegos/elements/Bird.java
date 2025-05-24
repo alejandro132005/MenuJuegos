@@ -16,14 +16,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Bird extends Sprite {
-    private int velocidadY = 0;       // Velocidad vertical (gravedad y salto)
-    private int gravedad = 1;         // Fuerza de gravedad
+    private int velocidadY = 0;      
+    private int gravedad = 1;      
     private int fuerzaSalto = -15; 
-    private BufferedImage image;// Impulso al saltar
+    private BufferedImage image;
 
     public Bird(int x, int y, int width, int height, Color color, GraphicContainer container) {
         super(x, y, width, height, color, container);
-
         try {
             this.image = ImageIO.read(getClass().getResource("/autonoma/menuJuego/images/flappybird.png"));
         } catch (IOException e) {
@@ -31,7 +30,6 @@ public class Bird extends Sprite {
         }
     }
     
-
     // Método para actualizar la posición y velocidad (gravedad y salto)
     public void actualizar() {
         velocidadY += gravedad;    // Aplica gravedad a la velocidad vertical
@@ -72,6 +70,10 @@ public class Bird extends Sprite {
             g.setColor(color);
             g.fillOval(getX(), getY(), getWidth(), getHeight());
         }
+    }
+
+    void reiniciar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

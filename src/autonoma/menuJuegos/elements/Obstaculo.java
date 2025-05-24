@@ -8,30 +8,39 @@ import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author maria
+ * Clase que representa un obstáculo (tubo) en el juego Flappy Bird.
  */
 public class Obstaculo extends Sprite {
 
     private boolean pasado;
     private BufferedImage image;
 
+    /**
+     * Constructor de obstáculo.
+     * @param path Ruta de la imagen del tubo (debe comenzar con "/").
+     * @param x Posición x
+     * @param y Posición y
+     * @param width Ancho del tubo
+     * @param height Alto del tubo
+     * @param gameContainer Contenedor del juego
+     */
     public Obstaculo(String path, int x, int y, int width, int height, GraphicContainer gameContainer) {
-        super(path, x, y, width, height);
+        super(x, y, width, height, Color.GREEN, gameContainer);
+        this.pasado = false;
+        this.gameContainer = gameContainer;
 
         try {
-            this.image = ImageIO.read(getClass().getResource(path));
-        } catch (IOException e) {
+            // Asegúrate de que la ruta esté bien (desde src/)
+            this.image = ImageIO.read(getClass().getResource("/" + path));
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("Error al cargar la imagen del obstáculo: " + path);
             e.printStackTrace();
         }
-        this.gameContainer = gameContainer;
-        this.pasado = false;
     }
 
     public boolean isPasado() {
@@ -42,19 +51,21 @@ public class Obstaculo extends Sprite {
         this.pasado = pasado;
     }
 
+    /**
+     * Mueve el obstáculo hacia la izquierda.
+     */
     public void moverIzquierda(int velocidad) {
         this.x -= velocidad;
     }
 
-   @Override
+    @Override
     public void paint(Graphics g) {
         if (image != null) {
             g.drawImage(image, x, y, width, height, null);
         } else {
-            g.setColor(Color.RED);  // rojo para que se note
+            g.setColor(Color.RED);
             g.fillRect(x, y, width, height);
-            g.drawString("No Img", x + 5, y + 15);
+            g.drawString("Sin Imagen", x + 5, y + 15);
         }
     }
-
 }

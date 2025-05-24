@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Camila
+ * 
  */
 public class PacmanGameWindow extends javax.swing.JFrame implements GraphicContainer {
     private Pacman ventana;
@@ -33,6 +34,7 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     public static final int _HEIGHT = 685;
     
     public PacmanGameWindow(GameWindow ventanaPrincipal) throws IOException {
+        setUndecorated(true);
         initComponents();
         this.setSize(_WIDTH,_HEIGHT);
         this.setLocationRelativeTo(null);
@@ -51,6 +53,7 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     }
     
     private void exitGame() {
+        this.sonido.detenerLoop();
         this.hiloPacman.stop();
         ventanaPrincipal = new GameWindow ();
         ventanaPrincipal.setVisible(true);
@@ -84,12 +87,14 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     
     public void win (){
         if (this.ventana.getComidas().size() == 0){
+            this.sonido.detenerLoop();
             this.sonido.reproducir("PacmanWin.wav");
             JOptionPane.showMessageDialog(null, "GANASTE!! " + this.ventana.getPuntaje());
         }
     }
     
     public void gameOver (){
+        this.sonido.detenerLoop();
         this.sonido.reproducir("PacmanGameOver.wav");
         JOptionPane.showMessageDialog(null, "Perdiste, tu puntaje fue: " + this.ventana.getPuntaje());
     }

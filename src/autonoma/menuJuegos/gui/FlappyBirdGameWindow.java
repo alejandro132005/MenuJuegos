@@ -6,6 +6,7 @@ package autonoma.menuJuegos.gui;
 
 import autonoma.menuJuegos.elements.HiloMoverBird;
 import autonoma.menuJuegos.elements.FlappyBird;
+import autonoma.menuJuegos.elements.HiloMoverObstaculo;
 import autonoma.menuJuegos.elements.Sonido;
 import static autonoma.menuJuegos.gui.FlappyBirdGameWindow._HEIGHT;
 import static autonoma.menuJuegos.gui.FlappyBirdGameWindow._WIDTH;
@@ -32,6 +33,7 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
     private Graphics gImagenBuffer;
     public static final int _WIDTH = 360;
     public static final int _HEIGHT = 640;
+    private HiloMoverObstaculo hiloObstaculos;
 
     /**
      * Creates new form FlappyBird
@@ -42,15 +44,17 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
         this.setLocationRelativeTo(null);
         this.ventana = new FlappyBird(0, 0, 640, 360, Color.BLACK, this);
         this.sonido = new Sonido();
-//        this.hiloBird = new HiloMoverBird(this.ventana);
-//        this.hiloSnake.start();
+        this.hiloObstaculos = new HiloMoverObstaculo(this.ventana);
+        this.hiloObstaculos.start();
         this.ventanaPrincipal = ventanaPrincipal;
+        this.setLayout(null);
+
         this.imagenBuffer = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.gImagenBuffer = this.imagenBuffer.getGraphics();
     }
 
     private void exitGame() {
-//        this.hiloBird.stop();
+      this.hiloObstaculos.stop();
         ventanaPrincipal = new GameWindow ();
         ventanaPrincipal.setVisible(true);
         this.dispose();
