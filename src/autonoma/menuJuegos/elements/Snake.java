@@ -18,28 +18,68 @@ import java.io.InputStream;
 import java.util.Random;
 
 /**
- *
- * @author Camila
+ * Clase que representa el juego de la serpiente (Snake).
+ * Controla la lógica, el movimiento, dibujo, puntaje, colisiones y estado del juego.
+ * @author Alejandro
+ * @since 20250519
+ * @version 1.0
  */
 public class Snake extends SpriteContainer implements GraphicContainer {
     /**
-     * Instancia para escribir archivos de texto plano
+     * Escritor para archivos de texto, utilizado para guardar el puntaje.
      */
     private EscritorArchivoTextoPlano escritor;
 
     /**
-     * Instancia para leer archivos de texto plano
+     * Lector para archivos de texto, utilizado para leer el puntaje.
      */
     private LectorArchivoTextoPlano lector;
-    
+
+    /**
+     * Instancia de la serpiente.
+     */
     private Serpiente serpiente;
+
+    /**
+     * Instancia de la comida.
+     */
     private ComidaSnake comida;
+
+    /**
+     * Tamaño de cada cuadro en el tablero (ancho y alto).
+     */
     private int tamanoCuadro = 35;
+
+    /**
+     * Indica si el juego ha terminado.
+     */
     private boolean gameOver = false;
+
+    /**
+     * Puntaje actual del jugador.
+     */
     private int puntaje = 0;
+
+    /**
+     * Generador de números aleatorios para colocar la comida.
+     */
     Random random;
+
+    /**
+     * Controlador de sonido para reproducir efectos.
+     */
     Sonido sonido;
 
+    /**
+     * Constructor del juego Snake.
+     * 
+     * @param x         Posición X inicial
+     * @param y         Posición Y inicial
+     * @param width     Ancho del contenedor
+     * @param height    Alto del contenedor
+     * @param color     Color del fondo
+     * @param container Contenedor gráfico donde se renderiza el juego
+     */
     public Snake(int x, int y, int width, int height, Color color, GraphicContainer container){
         super(x, y, width, height, color, container);
         serpiente = new Serpiente(5, 5);
@@ -49,27 +89,35 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         addComida();
     }
 
+    /**
+     * Dibuja los elementos gráficos del juego: fondo, rejilla, comida, serpiente, puntaje.
+     */
     public void draw(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0,0,this.width,this.height);
+
+        // Dibuja rejilla
         g.setColor(Color.GRAY);
         for(int i = 0; i < this.width/tamanoCuadro; i++) {
             g.drawLine(i*tamanoCuadro, 0, i*tamanoCuadro, this.height);
-            g.drawLine(0, i*tamanoCuadro
-                    , this.width, i*tamanoCuadro); 
+            g.drawLine(0, i*tamanoCuadro, this.width, i*tamanoCuadro); 
         }
- 
+
+        // Dibuja comida
         g.setColor(Color.red);
         g.fill3DRect(comida.getMaxWidth()*tamanoCuadro, comida.getMaxHeight()*tamanoCuadro, tamanoCuadro, tamanoCuadro, true);
- 
+
+        // Dibuja cabeza de la serpiente
         g.setColor(Color.green);
         g.fill3DRect(this.serpiente.getCabeza().getX()*tamanoCuadro, this.serpiente.getCabeza().getY()*tamanoCuadro, tamanoCuadro, tamanoCuadro, true);
-         
+
+        // Dibuja cuerpo de la serpiente
         for (int i = 0; i < this.serpiente.getCuerpo().size(); i++) {
             Cuadro parteSerpiente = this.serpiente.getCuerpo().get(i);
             g.fill3DRect(parteSerpiente.getX()*tamanoCuadro, parteSerpiente.getY()*tamanoCuadro, tamanoCuadro, tamanoCuadro, true);
         }
- 
+
+        // Dibuja texto de puntaje o fin del juego
         try {
             InputStream is = getClass().getResourceAsStream("/autonoma/menuJuegos/fonts/ARCADE.TTF");
             Font fuente = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
@@ -85,7 +133,10 @@ public class Snake extends SpriteContainer implements GraphicContainer {
             e.printStackTrace();
         }  
     }
-    
+
+    /**
+     * Genera una nueva posición aleatoria para la comida.
+     */
     public void addComida(){
         int columnasDisponibles = this.width / this.tamanoCuadro;
         int filasDisponibles = this.height / this.tamanoCuadro;
@@ -96,7 +147,10 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         this.comida.setMaxWidth(comidaX);
         this.comida.setMaxHeight(comidaY);
     }
-    
+
+    /**
+     * Verifica si la serpiente ha comido la comida.
+     */
     public void verificarComida(){
         Cuadro cabeza = this.serpiente.getCabeza();
         if (cabeza.getX() == comida.getMaxWidth() && cabeza.getY() == comida.getMaxHeight()) {
@@ -111,6 +165,9 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         }
     }
 
+    /**
+     * Verifica si la serpiente ha colisionado con los bordes del área de juego.
+     */
     public void verificarColisionConBordes() {
         Cuadro cabeza = this.serpiente.getCabeza();
         int x = cabeza.getX();
@@ -123,31 +180,31 @@ public class Snake extends SpriteContainer implements GraphicContainer {
             this.gameOver = true;
         }
     }
-    
+
     /**
-     * Maneja eventos del teclado para ejecutar acciones en el juego
-     * @param e evento de teclado
-     * @throws IOException
+     * Maneja los eventos del teclado para mover la serpiente.
+     * 
+     * @param e Evento de teclado
      */
     public void handleKey(KeyEvent e) throws IOException {
         if (e.getKeyCode() == KeyEvent.VK_W && this.serpiente.getVelocidadY() != 1) {
             this.serpiente.setVelocidadX(0);
             this.serpiente.setVelocidadY(-1);
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_S && this.serpiente.getVelocidadY() != -1) {
+        } else if (e.getKeyCode() == KeyEvent.VK_S && this.serpiente.getVelocidadY() != -1) {
             this.serpiente.setVelocidadX(0);
             this.serpiente.setVelocidadY(1);
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_A && this.serpiente.getVelocidadX() != 1) {
+        } else if (e.getKeyCode() == KeyEvent.VK_A && this.serpiente.getVelocidadX() != 1) {
             this.serpiente.setVelocidadX(-1);
             this.serpiente.setVelocidadY(0);
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_D && this.serpiente.getVelocidadX() != -1) {
+        } else if (e.getKeyCode() == KeyEvent.VK_D && this.serpiente.getVelocidadX() != -1) {
             this.serpiente.setVelocidadX(1);
             this.serpiente.setVelocidadY(0);
         }
     }
-    
+
+    /**
+     * Reinicia el juego: puntaje, estado, serpiente y comida.
+     */
     public void reiniciarJuego() throws IOException {
         this.puntaje = 0;
         this.serpiente.getCuerpo().clear(); 
@@ -157,34 +214,35 @@ public class Snake extends SpriteContainer implements GraphicContainer {
         comida = new ComidaSnake(width, height, tamanoCuadro);
         random = new Random();
         addComida();
-
         this.refresh();
     }
-    
-    public void verificarJuego() throws IOException{
+
+    /**
+     * Verifica si el juego terminó y reinicia la ventana si es necesario.
+     */
+    public void verificarJuego() throws IOException {
         if (this.gameOver){
             if (this.getGameContainer() instanceof SnakeGameWindow ventanaSnake){
                 ventanaSnake.reiniciar();
             }
         }
     }
-    
+
     /**
-     * Actualiza el puntaje y lo guarda en un archivo
-     * @param nuevoPuntaje nuevo valor del puntaje
-     * @throws IOException
+     * Actualiza y guarda el puntaje en un archivo de texto.
+     * 
+     * @param nuevoPuntaje Nuevo valor del puntaje
      */
     public void actualizarPuntaje(int nuevoPuntaje) throws IOException {
         this.puntaje = nuevoPuntaje;
-
         EscritorArchivoTextoPlano escritor = new EscritorArchivoTextoPlano("puntajeSnake.txt");
         escritor.escribir(Integer.toString(nuevoPuntaje));
     }
 
     /**
-     * Muestra el puntaje actual almacenado en el archivo
-     * @return puntaje leído
-     * @throws IOException
+     * Retorna el puntaje actual leído desde el archivo.
+     * 
+     * @return String con el puntaje
      */
     public String mostrarPuntajeActual() throws IOException {
         lector = new LectorArchivoTextoPlano(); 
@@ -192,7 +250,7 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Refresca la vista del contenedor grafico
+     * Refresca el área gráfica donde se dibuja el juego.
      */
     @Override
     public void refresh() {
@@ -202,8 +260,9 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Devuelve los limites del area del juego
-     * @return limites como objeto Rectangle
+     * Devuelve los límites del área de juego.
+     * 
+     * @return Rectangle con los límites del contenedor
      */
     @Override
     public Rectangle getBoundaries() {
@@ -211,35 +270,56 @@ public class Snake extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Retorna el puntaje actual
-     * @return puntaje
+     * Getter del puntaje actual.
+     * 
+     * @return puntaje actual
      */
     public int getPuntaje() {
         return puntaje;
     }
 
     /**
-     * Establece el puntaje y lo actualiza en el archivo
-     * @param puntaje nuevo puntaje
-     * @throws IOException
+     * Setter del puntaje y lo guarda en archivo.
+     * 
+     * @param puntaje nuevo valor del puntaje
      */
     public void setPuntaje(int puntaje) throws IOException {
         this.puntaje = puntaje;
         this.actualizarPuntaje(puntaje);
     }
 
+    /**
+     * Getter de la serpiente.
+     * 
+     * @return objeto Serpiente
+     */
     public Serpiente getSerpiente() {
         return serpiente;
     }
 
+    /**
+     * Setter de la serpiente.
+     * 
+     * @param serpiente nueva instancia de Serpiente
+     */
     public void setSerpiente(Serpiente serpiente) {
         this.serpiente = serpiente;
     }
 
+    /**
+     * Indica si el juego terminó.
+     * 
+     * @return true si terminó, false en caso contrario
+     */
     public boolean isGameOver() {
         return gameOver;
     }
 
+    /**
+     * Establece el estado de fin del juego.
+     * 
+     * @param gameOver nuevo estado del juego
+     */
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }

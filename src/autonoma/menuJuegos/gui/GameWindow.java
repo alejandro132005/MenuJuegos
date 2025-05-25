@@ -7,16 +7,44 @@ package autonoma.menuJuegos.gui;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import java.io.File;
 
 /**
  *
  * @author Camila
  */
+
+
 public class GameWindow extends javax.swing.JFrame {
+    private Clip backgroundMusic;
     public GameWindow() {
         initComponents();
         this.setLocationRelativeTo(null);
+        reproducirMusicaFondo();
     }
+    
+    private void reproducirMusicaFondo() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                new File("src/autonoma/menuJuegos/sounds/window.wav").getAbsoluteFile());
+            backgroundMusic = AudioSystem.getClip();
+            backgroundMusic.open(audioInputStream);
+            backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY); // Repite la música indefinidamente
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void detenerMusicaFondo() {
+        if (backgroundMusic != null && backgroundMusic.isRunning()) {
+            backgroundMusic.stop();
+            backgroundMusic.close();
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -157,18 +185,21 @@ public class GameWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void imagenJuego1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenJuego1MouseClicked
+        detenerMusicaFondo();
         FlappyBirdGameWindow juegoFlappyBird = new FlappyBirdGameWindow(this);
         juegoFlappyBird.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_imagenJuego1MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        detenerMusicaFondo();
         SnakeGameWindow juegoSnake = new SnakeGameWindow(this);
         juegoSnake.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        detenerMusicaFondo();
         PacmanGameWindow juegoPacman;
         try {
             juegoPacman = new PacmanGameWindow(this);
@@ -180,6 +211,7 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void imagenSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenSalirMouseClicked
+        detenerMusicaFondo();
         this.dispose();
     }//GEN-LAST:event_imagenSalirMouseClicked
 
