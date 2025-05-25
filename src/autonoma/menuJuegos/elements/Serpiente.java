@@ -34,7 +34,7 @@ public class Serpiente{
         cuerpo.add(new Cuadro(comida.getX(), comida.getY()));
     }
 
-    public boolean collidesWithSelf() {
+    public boolean colisionConSiMisma() {
         for (Cuadro t : cuerpo) {
             if (t.getX() == cabeza.getX() && t.getY() == cabeza.getY()) {
                 return true;

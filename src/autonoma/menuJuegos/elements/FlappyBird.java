@@ -4,6 +4,7 @@
  */
 package autonoma.menuJuegos.elements;
 
+import autonoma.menuJuegos.gui.FlappyBirdGameWindow;
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.SpriteContainer;
 import java.awt.Color;
@@ -42,7 +43,6 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     private int contadorTubos = 0;
     private int puntaje = 0;
     private boolean gameOver = false;
-    private boolean victoria = false; // Agregar esta línea junto a otros atributos
 
     private Random random;
     private BufferedImage background;
@@ -78,15 +78,9 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
         int alturaSuperior = 50 + random.nextInt(250);
         int x = this.getWidth();
 
-
-//        Obstaculo tuboArriba = new Obstaculo("autonoma/menuJuego/images/obstaculoDown.png",x, 0, anchoTubo, alturaSuperior, this);
-//        Obstaculo tuboAbajo = new Obstaculo("autonoma/menuJuego/images/osbtaculoUp.png",x, alturaSuperior + espacioEntreTubos, 
-//                                           anchoTubo, alturaTubo, this);
-
         Obstaculo tuboArriba = new Obstaculo("autonoma/menuJuego/images/obstaculoDown.png", x, 0, alturaSuperior, anchoTubo,  this);
         Obstaculo tuboAbajo = new Obstaculo("autonoma/menuJuego/images/obstaculoUp.png", x, alturaSuperior + espacioEntreTubos, alturaTubo, anchoTubo, this);
 
-        
         obstaculos.add(tuboArriba);
         obstaculos.add(tuboAbajo);
         this.add(tuboArriba);
@@ -101,7 +95,6 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
             if (o.getX() + o.getWidth() < 0) {
                 this.remove(o);
                 obstaculos.remove(i);
-                
             }
             
             if (!o.isPasado() && o.getY() == 0 && o.getX() + o.getWidth() < bird.getX()) {
@@ -159,11 +152,26 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
                 g.setColor(Color.YELLOW); 
                 g.drawString("Puntaje: " + this.getPuntaje(), 20, 65);
                 g.setColor(Color.WHITE); 
-//                g.drawString("Vidas: " + this.getVidas(), tamanoCuadro + 200, 65);
             }
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }    
+    }
+    
+    public void reiniciar() throws IOException {
+        this.obstaculos.clear();
+        this.puntaje = 0;
+        this.actualizarPuntaje(0);
+        this.setGameOver(false);
+        actualizarJuego();
+        
+        this.refresh();
+    }
+    
+    public void verificarJuego() throws IOException{            
+        if (this.getGameContainer() instanceof FlappyBirdGameWindow ventanaFlappyBird){
+            ventanaFlappyBird.reiniciar();
+        }
     }
     
     /**
@@ -228,18 +236,5 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     @Override
     public Rectangle getBoundaries() {
         return new Rectangle(x, y, width, height);
-    }
-
-    public void reiniciar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    // En FlappyBird.java
-    public boolean isVictoria() {
-        return victoria;
-    }
-
-    public void setVictoria(boolean victoria) {
-        this.victoria = victoria;
     }
 }

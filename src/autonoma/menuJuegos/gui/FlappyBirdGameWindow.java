@@ -4,7 +4,6 @@
  */
 package autonoma.menuJuegos.gui;
 
-import autonoma.menuJuegos.elements.HiloMoverBird;
 import autonoma.menuJuegos.elements.FlappyBird;
 import autonoma.menuJuegos.elements.HiloMoverObstaculo;
 import autonoma.menuJuegos.elements.Sonido;
@@ -25,10 +24,8 @@ import javax.swing.JOptionPane;
  * @author Camila
  */
 public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicContainer {
-    
     private FlappyBird ventana;
     private GameWindow ventanaPrincipal;
-    private HiloMoverBird hiloBird;
     private Sonido sonido;
     private BufferedImage imagenBuffer;
     private Graphics gImagenBuffer;
@@ -40,6 +37,7 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
      * Creates new form FlappyBird
      */
      public FlappyBirdGameWindow(GameWindow ventanaPrincipal) {
+        setUndecorated(true);
         initComponents();
         this.setSize(_WIDTH,_HEIGHT);
         this.setLocationRelativeTo(null);
@@ -56,9 +54,9 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
 
     private void exitGame() {
       this.hiloObstaculos.stop();
-        ventanaPrincipal = new GameWindow ();
-        ventanaPrincipal.setVisible(true);
-        this.dispose();
+      ventanaPrincipal = new GameWindow ();
+      ventanaPrincipal.setVisible(true);
+      this.dispose();
     }
     
     public void reiniciar() throws IOException {
@@ -68,15 +66,12 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
                 if(this.ventana.isGameOver()){
                     this.gameOver();
                 }
-                else{
-                    this.win();
-                }
                 opcion = JOptionPane.showInputDialog(null, "¿Deseas reiniciar el juego? 1) sí  2) no");
             } while (!"1".equals(opcion) && !"2".equals(opcion));
 
             if ("1".equals(opcion)) {
-                this.ventana.actualizarJuego();
-                this.setVisible(true);   
+                this.ventana.reiniciar();
+                this.setVisible(true);  
                 this.repaint();         
             } else if ("2".equals(opcion)) {
                 this.hiloObstaculos.stop();
@@ -85,15 +80,11 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
         }
     }
     
-        public void win (){
-        }
-    
     public void gameOver (){
+        this.sonido.detenerLoop();
+        this.sonido.reproducir("PacmanGameOver.wav");
+        JOptionPane.showMessageDialog(null, "Perdiste, tu puntaje fue: " + this.ventana.getPuntaje());
     }
-    
-    
-    
-    
     
     @Override
     public void update(Graphics g){
@@ -157,7 +148,6 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
     public Rectangle getBoundaries() {
         return this.getBounds();
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

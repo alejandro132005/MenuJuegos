@@ -33,7 +33,7 @@ public class HiloMoverSnake implements Runnable{
 //                this.sonido.reproducir("SoundSnake.wav");
                 snake.getSerpiente().move();
                 
-                if (snake.getSerpiente().collidesWithSelf()) {
+                if (snake.getSerpiente().colisionConSiMisma()) {
                     snake.setGameOver(true);
                 }
                 

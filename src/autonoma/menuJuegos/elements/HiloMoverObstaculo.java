@@ -31,6 +31,7 @@ public class HiloMoverObstaculo implements Runnable{
             if (!flappyBird.isGameOver()) {
                 try {
                     flappyBird.actualizarJuego();
+                    flappyBird.verificarJuego();
                 } catch (IOException ex) {
                     Logger.getLogger(HiloMoverObstaculo.class.getName()).log(Level.SEVERE, null, ex);
                 }
