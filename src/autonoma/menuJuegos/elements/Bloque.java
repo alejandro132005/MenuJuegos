@@ -7,7 +7,6 @@ package autonoma.menuJuegos.elements;
 import autonoma.menuJuegosBase.elements.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

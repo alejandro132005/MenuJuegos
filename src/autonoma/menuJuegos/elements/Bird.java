@@ -4,8 +4,6 @@
  */
 package autonoma.menuJuegos.elements;
 
-
-
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.Sprite;
 import java.awt.Color;
@@ -67,11 +65,4 @@ public class Bird extends Sprite {
             g.fillOval(getX(), getY(), getWidth(), getHeight());
         }
     }
-
-
-    void reiniciar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
 }

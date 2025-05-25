@@ -31,44 +31,6 @@ public abstract class Personaje extends Sprite {
     
     public abstract void move(List<Bloque> walls);
     public abstract void move(List<Bloque> walls, Jugador jugador);
-    
-    public void updateDirection(char direccionNueva) {
-        char prevDirection = this.direccion;
-        this.direccion = direccionNueva;
-        updateVelocity();
-        this.x += velocidadX;
-        this.y += velocidadY;
-    }
-
-    public void updateVelocity() {
-        int speed = 8;
-
-        switch (direccion) {
-            case 'U':
-                velocidadX = 0;
-                velocidadY = -speed;
-                break;
-            case 'D':
-                velocidadX = 0;
-                velocidadY = speed;
-                break;
-            case 'L':
-                velocidadX = -speed;
-                velocidadY = 0;
-                break;
-            case 'R':
-                velocidadX = speed;
-                velocidadY = 0;
-                break;
-        }
-    }
-
-    public void reset() {
-        this.x = inicioX;
-        this.y = inicioY;
-        this.velocidadX = 0;
-        this.velocidadY = 0;
-    }
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);

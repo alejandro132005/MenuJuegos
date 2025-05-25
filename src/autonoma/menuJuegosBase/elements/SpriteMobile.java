@@ -5,8 +5,6 @@
 package autonoma.menuJuegosBase.elements;
 
 import java.awt.Graphics;
-import static javax.swing.Spring.height;
-import static javax.swing.Spring.width;
 
 /**
  * Modelo que permite representar un GraphicContainer
