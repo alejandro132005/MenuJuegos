@@ -43,7 +43,6 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
         this.setLocationRelativeTo(null);
         this.ventana = new FlappyBird(0, 0, 640, 360, Color.BLACK, this);
         this.sonido = new Sonido();
-        this.sonido.reproducir("flappy.wav");
         this.hiloObstaculos = new HiloMoverObstaculo(this.ventana);
         this.hiloObstaculos.start();
         this.ventanaPrincipal = ventanaPrincipal;
@@ -97,7 +96,7 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
     
     @Override
     public void paint(Graphics g) { 
-        update(g); 
+        update(g);
                
     }
 
