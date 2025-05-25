@@ -113,7 +113,7 @@ public class Jugador extends Personaje{
     }
 
     @Override
-    public void move(Jugador jugador) {
-        
+    public void move(List<Bloque> walls, Jugador jugador) {
+       
     }
 }

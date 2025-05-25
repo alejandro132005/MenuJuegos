@@ -30,7 +30,7 @@ public abstract class Personaje extends Sprite {
     }
     
     public abstract void move(List<Bloque> walls);
-    public abstract void move(Jugador jugador);
+    public abstract void move(List<Bloque> walls, Jugador jugador);
     
     public void updateDirection(char direccionNueva) {
         char prevDirection = this.direccion;

@@ -123,6 +123,4 @@ public class Obstaculo extends Sprite {
     public void setGameContainer(GraphicContainer gameContainer) {
         this.gameContainer = gameContainer;
     }
-    
-    
 }

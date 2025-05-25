@@ -7,11 +7,14 @@ package autonoma.menuJuegos.elements;
 import autonoma.menuJuegosBase.elements.GraphicContainer;
 import autonoma.menuJuegosBase.elements.SpriteContainer;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
@@ -20,6 +23,15 @@ import javax.imageio.ImageIO;
  * Clase que representa el juego FlappyBird como contenedor gráfico.
  */
 public class FlappyBird extends SpriteContainer implements GraphicContainer {
+    /**
+     * Instancia para escribir archivos de texto plano
+     */
+    private EscritorArchivoTextoPlano escritor;
+
+    /**
+     * Instancia para leer archivos de texto plano
+     */
+    private LectorArchivoTextoPlano lector;
     private Bird bird;
     private ArrayList<Obstaculo> obstaculos;
     private int velocidadObstaculos = 4;
@@ -28,7 +40,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     private int alturaTubo = 512;
     private int tiempoNuevoPar = 40; 
     private int contadorTubos = 0;
-    private int puntaje;
+    private int puntaje = 0;
     private boolean gameOver = false;
 
     private Random random;
@@ -49,7 +61,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     /**
      * Actualiza la lógica del juego: movimientos, generación de obstáculos y colisiones.
      */
-    public void actualizarJuego() {
+    public void actualizarJuego() throws IOException {
         contadorTubos++;
         if (contadorTubos >= tiempoNuevoPar) {
             generarParObstaculos();
@@ -75,13 +87,19 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
 
     }
     
-    public void moverObstaculos() {
+    public void moverObstaculos() throws IOException {
         for (int i = obstaculos.size() - 1; i >= 0; i--) {
             Obstaculo o = obstaculos.get(i);
             o.moverIzquierda(velocidadObstaculos);
             if (o.getX() + o.getWidth() < 0) {
                 this.remove(o);
                 obstaculos.remove(i);
+                
+            }
+            
+            if (!o.isPasado() && o.getY() == 0 && o.getX() + o.getWidth() < bird.getX()) {
+                o.setPasado(true); 
+                this.actualizarPuntaje(puntaje+=1);
             }
         }
     }
@@ -122,6 +140,63 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
         for (Obstaculo s : this.obstaculos) {
             s.paint(g);
         }
+        
+        try {
+            InputStream is = getClass().getResourceAsStream("/autonoma/menuJuegos/fonts/ARCADE.TTF");
+            Font fuente = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(35f);
+            g.setFont(fuente);
+            if (gameOver) {
+                g.setColor(Color.RED);
+                g.drawString("Perdiste: " + this.getPuntaje(), 20, 65);
+            } else {
+                g.setColor(Color.YELLOW); 
+                g.drawString("Puntaje: " + this.getPuntaje(), 20, 65);
+                g.setColor(Color.WHITE); 
+//                g.drawString("Vidas: " + this.getVidas(), tamanoCuadro + 200, 65);
+            }
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }    
+    }
+    
+    /**
+     * Actualiza el puntaje y lo guarda en un archivo
+     * @param nuevoPuntaje nuevo valor del puntaje
+     * @throws IOException
+     */
+    public void actualizarPuntaje(int nuevoPuntaje) throws IOException {
+        this.puntaje = nuevoPuntaje;
+
+        EscritorArchivoTextoPlano escritor = new EscritorArchivoTextoPlano("puntajeFlappyBird.txt");
+        escritor.escribir(Integer.toString(nuevoPuntaje));
+    }
+
+    /**
+     * Muestra el puntaje actual almacenado en el archivo
+     * @return puntaje leído
+     * @throws IOException
+     */
+    public String mostrarPuntajeActual() throws IOException {
+        lector = new LectorArchivoTextoPlano(); 
+        return lector.leer("puntajeFlappyBird.txt");
+    }
+
+    /**
+     * Retorna el puntaje actual
+     * @return puntaje
+     */
+    public int getPuntaje() {
+        return puntaje;
+    }
+
+    /**
+     * Establece el puntaje y lo actualiza en el archivo
+     * @param puntaje nuevo puntaje
+     * @throws IOException
+     */
+    public void setPuntaje(int puntaje) throws IOException {
+        this.puntaje = puntaje;
+        this.actualizarPuntaje(puntaje);
     }
     
     public boolean isGameOver() {
@@ -130,14 +205,6 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
-    }
-
-    public int getPuntaje() {
-        return puntaje;
-    }
-
-    public void setPuntaje(int puntaje) {
-        this.puntaje = puntaje;
     }
     
     @Override
