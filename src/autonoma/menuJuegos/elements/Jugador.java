@@ -113,7 +113,11 @@ public class Jugador extends Personaje{
     }
 
     @Override
-    public void move(Jugador jugador) {
-        
+    public void move(List<Bloque> walls, Jugador jugador) {
+       
+    }
+
+    char getDirection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

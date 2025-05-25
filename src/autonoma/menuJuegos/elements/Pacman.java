@@ -46,28 +46,29 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
 
 
     private String[] mapa = {
-        "-------------------",
-        "-------------------",
-        ".XXXXXXXXXXXXXXXXXXX",
-        ".X        X        X",
-        ".X XX XXX X XXX XX X",
-        ".X                 X",
-        ".X XX X XXXXX X XX X",
-        ".X    X       X    X",
-        ".XXXX XXXX XXXX XXXX",
-        ".X    X       X    X",
-        ".XXXX X XXrXX X XXXX",
-        ".X       bpo       X",
-        ".XXXX X XXXXX X XXXX",
-        ".X    X       X    X",
-        ".XXXX X XXXXX X XXXX",
-        ".X        X        X",
-        ".X XX XXX X XXX XX X",
-        ".X  X     P     X  X",
-        ".XX X X XXXXX X X XX",
-        ".X    X   X   X    X",
-        ".XXXXXXXXXXXXXXXXXXX",
-    };
+    
+         "XXXXXXXXXXXXXXXXXXX",
+         "X        X        X",
+         "X XX XXX X XXX XX X",
+         "X                 X",
+         "X XX X XXXXX X XX X",
+         "X    X       X    X",
+         "XXXX XXXX XXXX XXXX",
+         "X    X       X    X",
+         "XXXX X XXrXX X XXXX",
+         "X       bpo       X",
+         "XXXX X XXXXX X XXXX",
+         "X    X       X    X",
+         "XXXX X XXXXX X XXXX",
+         "X        X        X",
+         "X XX XXX X XXX XX X",
+         "X  X     P     X  X",
+         "XX X X XXXXX X X XX",
+         "X    X   X   X    X",
+         "X XXXXXX X XXXXXX X",
+         "X                 X",
+         "XXXXXXXXXXXXXXXXXXX" 
+     };
 
     public Pacman(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) throws IOException {
         super(x, y, height, width, color, gameContainer);
@@ -128,12 +129,12 @@ public class Pacman extends SpriteContainer implements GraphicContainer {
     }
 
     public void detectarColisiones() throws IOException {
-        for (Bloque bloque : bloques) {
-            if (jugador.getBounds().intersects(bloque.getBounds())) {
-                jugador.reset();
-                break;
-            }
-        }
+//        for (Bloque bloque : bloques) {
+//            if (jugador.getBounds().intersects(bloque.getBounds())) {
+//                jugador.reset();
+//                break;
+//            }
+//        }
 
         for (Fantasma fantasma : fantasmas) {
             if (jugador.getBounds().intersects(fantasma.getBounds())) {

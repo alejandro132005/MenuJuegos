@@ -30,8 +30,8 @@ public class PacmanGameWindow extends javax.swing.JFrame implements GraphicConta
     private HiloMoverFantasmas hiloFantasmas;
     private Sonido sonido;
     private Graphics gImagenBuffer;
-     public static final int _WIDTH = 665;
-    public static final int _HEIGHT = 685;
+     public static final int _WIDTH = 610;
+    public static final int _HEIGHT = 670;
     
     public PacmanGameWindow(GameWindow ventanaPrincipal) throws IOException {
         setUndecorated(true);

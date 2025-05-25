@@ -17,8 +17,8 @@ import javax.imageio.ImageIO;
 
 public class Bird extends Sprite {
     private int velocidadY = 0;      
-    private int gravedad = 1;      
-    private int fuerzaSalto = -15; 
+    private int gravedad = 4;      
+    private int fuerzaSalto = -20; 
     private BufferedImage image;
 
     public Bird(int x, int y, int width, int height, Color color, GraphicContainer container) {
@@ -32,10 +32,9 @@ public class Bird extends Sprite {
     
     // Método para actualizar la posición y velocidad (gravedad y salto)
     public void actualizar() {
-        velocidadY += gravedad;    // Aplica gravedad a la velocidad vertical
-        setY(getY() + velocidadY); // Actualiza la posición vertical
+        velocidadY += gravedad;    
+        setY(getY() + velocidadY); 
 
-        // Verifica límites del contenedor
         if (gameContainer != null) {
             if (getY() < 0) {
                 setY(0);
@@ -45,23 +44,20 @@ public class Bird extends Sprite {
                 setY((int)(gameContainer.getBoundaries().getHeight() - getHeight()));
                 velocidadY = 0;
             }
-
         }
     }
 
-    // Método para hacer que el pájaro salte (impulso hacia arriba)
     public void saltar() {
         velocidadY = fuerzaSalto;
     }
-
-    // Método para detectar colisiones con otro sprite
+    
+    
     public boolean checkCollision(Sprite otro) {
         Rectangle r1 = new Rectangle(getX(), getY(), getWidth(), getHeight());
         Rectangle r2 = new Rectangle(otro.getX(), otro.getY(), otro.getWidth(), otro.getHeight());
         return r1.intersects(r2);
     }
 
-    // Método para dibujar el pájaro
     @Override
     public void paint(Graphics g) {
         if (image != null) {
@@ -72,8 +68,10 @@ public class Bird extends Sprite {
         }
     }
 
+
     void reiniciar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 
 }

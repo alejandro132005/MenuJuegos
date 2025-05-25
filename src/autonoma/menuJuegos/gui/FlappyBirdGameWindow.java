@@ -17,6 +17,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -59,6 +60,39 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
         ventanaPrincipal.setVisible(true);
         this.dispose();
     }
+    
+    public void reiniciar() throws IOException {
+        if (this.ventana.isGameOver()) {
+            String opcion;
+            do {
+                if(this.ventana.isGameOver()){
+                    this.gameOver();
+                }
+                else{
+                    this.win();
+                }
+                opcion = JOptionPane.showInputDialog(null, "¿Deseas reiniciar el juego? 1) sí  2) no");
+            } while (!"1".equals(opcion) && !"2".equals(opcion));
+
+            if ("1".equals(opcion)) {
+                this.ventana.actualizarJuego();
+                this.setVisible(true);   
+                this.repaint();         
+            } else if ("2".equals(opcion)) {
+                this.hiloObstaculos.stop();
+                exitGame(); 
+            }
+        }
+    }
+    
+        public void win (){
+        }
+    
+    public void gameOver (){
+    }
+    
+    
+    
     
     
     @Override

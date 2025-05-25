@@ -4,10 +4,6 @@
  */
 package autonoma.menuJuegos.elements;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Camila
@@ -29,9 +25,8 @@ public class HiloMoverFantasmas implements Runnable{
             if (!pacman.isGameOver()) {
                 
                 for (int i = 0; i < pacman.getFantasmas().size(); i++){
-                    pacman.getFantasmas().get(i).move(this.pacman.getJugador());
+                    pacman.getFantasmas().get(i).move(this.pacman.getBloques(), this.pacman.getJugador());
                 }
-
                 pacman.refresh();
             }
 

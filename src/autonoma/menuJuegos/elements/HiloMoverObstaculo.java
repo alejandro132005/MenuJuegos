@@ -5,17 +5,17 @@
 package autonoma.menuJuegos.elements;
 
 import java.io.IOException;
-import javax.swing.SwingUtilities;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author maria
  */
 public class HiloMoverObstaculo implements Runnable{
-
-    private FlappyBird flappyBird;
+        private FlappyBird flappyBird;
     private boolean running = false;
-    private int velocidad = 250; 
+    private int velocidad = 50; 
     private int ultimoNivel = 0;
     private Sonido sonido;
     
@@ -29,19 +29,13 @@ public class HiloMoverObstaculo implements Runnable{
         running = true;
         while (running) {
             if (!flappyBird.isGameOver()) {
-//                this.sonido.reproducir("SoundSnake.wav");
-                
-                flappyBird.actualizarJuego();
-                flappyBird.refresh();
-                
-                int nivelActual = flappyBird.getPuntaje() / 10;
-                if (nivelActual > ultimoNivel) {
-                    velocidad -= 20;
-                    if (velocidad < 50) velocidad = 50;
-                    ultimoNivel = nivelActual;
+                try {
+                    flappyBird.actualizarJuego();
+                } catch (IOException ex) {
+                    Logger.getLogger(HiloMoverObstaculo.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } 
-            
+                flappyBird.refresh();
+            }
             try {
                 Thread.sleep(velocidad);
             } catch (InterruptedException e) {
@@ -49,6 +43,14 @@ public class HiloMoverObstaculo implements Runnable{
             }
         }
     }
+
+    
+    //                int nivelActual = flappyBird.getPuntaje() / 10;
+//                if (nivelActual > ultimoNivel) {
+//                    velocidad -= 20;
+//                    if (velocidad < 50) velocidad = 50;
+//                    ultimoNivel = nivelActual;
+//                }
     
     public void start() {
         running = true;
@@ -59,5 +61,4 @@ public class HiloMoverObstaculo implements Runnable{
     public void stop() {
         running = false;
     }
-    
 }

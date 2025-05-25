@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
  * Clase que representa un obstáculo (tubo) en el juego Flappy Bird.
  */
 public class Obstaculo extends Sprite {
-
     private boolean pasado;
     private BufferedImage image;
 
@@ -124,6 +123,4 @@ public class Obstaculo extends Sprite {
     public void setGameContainer(GraphicContainer gameContainer) {
         this.gameContainer = gameContainer;
     }
-    
-    
 }
