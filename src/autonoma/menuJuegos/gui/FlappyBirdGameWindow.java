@@ -45,6 +45,8 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
     //
     public static final int _WIDTH = 360;
     public static final int _HEIGHT = 640;
+    //
+    
 
     // Hilo que mueve los obstáculos en el juego
     private HiloMoverObstaculo hiloObstaculos;
