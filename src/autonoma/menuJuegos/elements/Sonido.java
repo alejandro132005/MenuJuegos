@@ -95,6 +95,7 @@ public class Sonido {
             clipLoop.loop(Clip.LOOP_CONTINUOUSLY);
             clipLoop.start();
             
+
             System.out.println("Musica iniciada correctamente");
             
 

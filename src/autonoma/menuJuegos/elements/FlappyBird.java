@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import javax.imageio.ImageIO;
-import javax.swing.Timer;
+
 
 
 /**
@@ -88,16 +88,18 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     
     
 
-    public void moverObstaculos() {
-        Iterator<Obstaculo> it = obstaculos.iterator();
-        while (it.hasNext()) {
-            Obstaculo o = it.next();
-            o.moverIzquierda(velocidadObstaculos);
-            if (o.getX() + o.getWidth() < 0) {
-                this.remove(o);
-                it.remove();
+    public void moverPipes() {
+        for (int i = 0; i < obstaculos.size(); i++) {
+            Obstaculo obstaculo = obstaculos.get(i);
+            int resultado = obstaculo.getX() += this.velocidadObstaculos;
+            obstaculo.setX(resultado);
+
+            if (!obstaculo.passed && bird.x > pipe.x + pipe.width) {
+                score += 0.5;
+                pipe.passed = true;
             }
         }
+        this.repaint(); // redibuja el panel
     }
 
     private void verificarColisiones() {
