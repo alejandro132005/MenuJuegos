@@ -42,7 +42,8 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     private int contadorTubos = 0;
     private int puntaje = 0;
     private boolean gameOver = false;
-    private boolean victoria = false; // Agregar esta línea junto a otros atributos
+    private boolean victoria = false;
+    private Sonido sonido;// Agregar esta línea junto a otros atributos
 
     private Random random;
     private BufferedImage background;
@@ -123,6 +124,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     public void handleKey(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             saltar(); 
+            this.sonido.reproducir("flappy.wav");
         }
     }
 
@@ -130,7 +132,9 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
      * Llama al método saltar del pajaro para que suba al recibir un input.
      */
     public void saltar() {
+        
         bird.saltar();
+        this.sonido.reproducir("flappy.wav");
     }
 
     @Override
