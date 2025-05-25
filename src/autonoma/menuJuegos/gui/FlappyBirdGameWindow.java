@@ -42,6 +42,7 @@ public class FlappyBirdGameWindow extends javax.swing.JFrame implements GraphicC
     private Graphics gImagenBuffer;
 
     // Dimensiones constantes para la ventana del juego
+    //
     public static final int _WIDTH = 360;
     public static final int _HEIGHT = 640;
 
