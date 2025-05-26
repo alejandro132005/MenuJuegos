@@ -1,7 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+*/
 package autonoma.menuJuegos.gui;
 
 import autonoma.menuJuegos.elements.HiloMoverFantasmas;
@@ -15,105 +15,174 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Camila
+ * Ventana gráfica principal del juego Pacman.
+ * Extiende JFrame y actúa como contenedor del motor gráfico del juego.
+ * Administra la ejecución del juego, sonidos, reinicio y finalización.
  * 
+ * @author camila
+ * @since 20250525
+ * @version 1.0 
  */
 public class PacmanGameWindow extends javax.swing.JFrame implements GraphicContainer {
+
+    // Objeto principal del juego que contiene la lógica del juego
     private Pacman ventana;
+
+    // Referencia a la ventana principal del menú de juegos
     private GameWindow ventanaPrincipal;
+
+    // Imagen en memoria usada para evitar parpadeo (doble buffer)
     private BufferedImage imagenBuffer;
+    private Graphics gImagenBuffer;
+
+    // Hilos para el movimiento automático del Pacman y los fantasmas
     private HiloMoverPacman hiloPacman;
     private HiloMoverFantasmas hiloFantasmas;
+
+    // Reproductor de efectos de sonido
     private Sonido sonido;
-    private Graphics gImagenBuffer;
-     public static final int _WIDTH = 610;
+
+    // Dimensiones de la ventana del juego
+    public static final int _WIDTH = 610;
     public static final int _HEIGHT = 670;
-    
+
+    /**
+     * Constructor que inicializa todos los elementos del juego.
+     * 
+     * @param ventanaPrincipal Referencia a la ventana del menú principal
+     * @throws IOException Si ocurre un error al cargar recursos
+     */
     public PacmanGameWindow(GameWindow ventanaPrincipal) throws IOException {
-        setUndecorated(true);
-        initComponents();
-        this.setSize(_WIDTH,_HEIGHT);
-        this.setLocationRelativeTo(null);
+        setUndecorated(true);        // Quita la barra de título de la ventana
+        initComponents();            // Inicializa los componentes (si se usan en el diseñador)
+        try{
+            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/menuJuego/images/RetroLand.png")).getImage());
+        }catch (Exception e){
+            
+        }
+        this.setSize(_WIDTH, _HEIGHT);
+        this.setLocationRelativeTo(null); // Centra la ventana
+
+        // Crea el objeto principal del juego con sus dimensiones y color de fondo
         this.ventana = new Pacman(0, 0, 665, 685, Color.BLACK, this);
+
+        // Inicializa y reproduce el sonido de fondo en bucle
         this.sonido = new Sonido();
-        
         this.sonido.reproducirLoop("PacManFondo.wav");
-        
+
+        // Crea y lanza los hilos de movimiento
         this.hiloPacman = new HiloMoverPacman(this.ventana);
         this.hiloFantasmas = new HiloMoverFantasmas(this.ventana);
         this.hiloPacman.start();
         this.hiloFantasmas.start();
+
         this.ventanaPrincipal = ventanaPrincipal;
+
+        // Prepara el buffer para el dibujo (doble buffering)
         this.imagenBuffer = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.gImagenBuffer = this.imagenBuffer.getGraphics();
     }
-    
+
+    /**
+     * Método que cierra el juego y vuelve al menú principal.
+     */
     private void exitGame() {
-        this.sonido.detenerLoop();
-        this.hiloPacman.stop();
-        ventanaPrincipal = new GameWindow ();
-        ventanaPrincipal.setVisible(true);
-        this.dispose();
+        this.sonido.detenerLoop();        // Detiene el sonido de fondo
+        this.hiloPacman.stop();           // Detiene el hilo de Pacman
+        ventanaPrincipal = new GameWindow(); // Crea nueva ventana del menú
+        ventanaPrincipal.setVisible(true);   // Muestra el menú
+        this.dispose();                   // Cierra la ventana actual
     }
-    
+
+    /**
+     * Método para reiniciar el juego si el jugador pierde.
+     * Pregunta al usuario si desea reiniciar o salir al menú.
+     * 
+     * @throws IOException Si ocurre un error al reiniciar
+     */
     public void reiniciar() throws IOException {
         if (this.ventana.isGameOver()) {
             String opcion;
             do {
+                // Reinicia la música de fondo
                 this.sonido.reproducirLoop("PacManFondo.wav");
-                if(this.ventana.isGameOver()){
+
+                // Muestra mensaje correspondiente si perdió o ganó
+                if (this.ventana.isGameOver()) {
                     this.gameOver();
-                }
-                else{
+                } else {
                     this.win();
                 }
+
+                // Pregunta si desea reiniciar
                 opcion = JOptionPane.showInputDialog(null, "¿Deseas reiniciar el juego? 1) sí  2) no");
             } while (!"1".equals(opcion) && !"2".equals(opcion));
 
             if ("1".equals(opcion)) {
-                this.ventana.reiniciarJuego();
-                this.setVisible(true);   
-                this.repaint();         
+                this.ventana.reiniciarJuego(); // Reinicia lógica del juego
+                this.setVisible(true);         // Muestra ventana nuevamente
+                this.repaint();                // Redibuja todos los elementos
             } else if ("2".equals(opcion)) {
-                this.hiloPacman.stop();
-                exitGame(); 
+                this.hiloPacman.stop(); // Detiene el hilo de Pacman
+                exitGame();             // Regresa al menú principal
             }
         }
     }
-    
-    public void win (){
-        if (this.ventana.getComidas().size() == 0){
-            this.sonido.detenerLoop();
-            this.sonido.reproducir("PacmanWin.wav");
-            JOptionPane.showMessageDialog(null, "GANASTE!! " + this.ventana.getPuntaje());
+
+    /**
+     * Muestra mensaje de victoria y reproduce sonido.
+     */
+    public void win() {
+        // Verifica si ya no quedan comidas
+        if (this.ventana.getComidas().size() == 0) {
+            this.sonido.detenerLoop();                  // Detiene sonido de fondo
+            this.sonido.reproducir("PacmanWin.wav");    // Sonido de victoria
+            JOptionPane.showMessageDialog(null, "¡GANASTE! Tu puntaje fue: " + this.ventana.getPuntaje());
         }
     }
-    
-    public void gameOver (){
-        this.sonido.detenerLoop();
-        this.sonido.reproducir("PacmanGameOver.wav");
+
+    /**
+     * Muestra mensaje de derrota y reproduce sonido.
+     */
+    public void gameOver() {
+        this.sonido.detenerLoop();                      // Detiene sonido de fondo
+        this.sonido.reproducir("PacmanGameOver.wav");   // Sonido de derrota
         JOptionPane.showMessageDialog(null, "Perdiste, tu puntaje fue: " + this.ventana.getPuntaje());
     }
-    
+
+    /**
+     * Método encargado de actualizar el contenido gráfico de la ventana
+     * usando doble buffer.
+     * 
+     * @param g Contexto gráfico proporcionado por el sistema
+     */
     @Override
-    public void update(Graphics g){
+    public void update(Graphics g) {
+        // Limpia el buffer con fondo negro
         gImagenBuffer.setColor(Color.BLACK);
         gImagenBuffer.fillRect(0, 0, imagenBuffer.getWidth(), imagenBuffer.getHeight());
+
+        // Dibuja la lógica del juego en el buffer
         ventana.paint(gImagenBuffer);
+
+        // Muestra el buffer en pantalla
         g.drawImage(imagenBuffer, 0, 0, this);
     }
-    
+
     /**
-    * Metodo paint que dibuja todos los elementos en la ventana
-    */
+     * Método paint que redirige la lógica de dibujo al método update
+     * para usar el doble buffering.
+     */
     @Override
-    public void paint(Graphics g) { 
+    public void paint(Graphics g) {
         update(g);        
     }
+
+
     
     /**
      * This method is called from within the constructor to initialize the form.
