@@ -20,7 +20,7 @@ import java.util.List;
  * Clase que representa el juego de Pacman.
  * @author camila
  * @since 20250519
- * @version 1.0
+ * @version 1.0.
  */
 public class Pacman extends SpriteContainer implements GraphicContainer {
 
