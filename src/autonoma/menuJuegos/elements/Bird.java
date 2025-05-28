@@ -14,8 +14,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Modelo que representa al pajaro en el juego estilo Flappy Bird.
- * Controla el movimiento, colisiones y su representacion grafica.
+ * Modelo que representa al pajaro en el juego estilo Flappy Bird
+ * Controla el movimiento, colisiones y su representacion grafica
  * 
  * @author mariana
  * @since 20250525
@@ -24,27 +24,27 @@ import javax.imageio.ImageIO;
 public class Bird extends Sprite {
     
     /**
-     * Velocidad vertical del pajaro.
+     * Velocidad vertical del pajaro
      */
     private int velocidadY = 0;
 
     /**
-     * Gravedad que afecta al pajaro.
+     * Gravedad que afecta al pajaro
      */
     private int gravedad = 4;
 
     /**
-     * Fuerza de salto aplicada cuando el jugador salta.
+     * Fuerza de salto aplicada cuando el jugador salta
      */
     private int fuerzaSalto = -20;
 
     /**
-     * Imagen que representa graficamente al pajaro.
+     * Imagen que representa graficamente al pajaro
      */
     private BufferedImage image;
 
     /**
-     * Constructor que inicializa los atributos del pajaro.
+     * Constructor que inicializa los atributos del pajaro
      * 
      * @param x Posicion X inicial
      * @param y Posicion Y inicial
@@ -64,7 +64,7 @@ public class Bird extends Sprite {
 
     /**
      * Actualiza la posicion vertical del pajaro aplicando gravedad
-     * y controlando los limites del contenedor grafico.
+     * y controlando los limites del contenedor grafico
      */
     public void actualizar() {
         velocidadY += gravedad;
@@ -83,17 +83,17 @@ public class Bird extends Sprite {
     }
 
     /**
-     * Aplica la fuerza de salto al pajaro.
+     * Aplica la fuerza de salto al pajaro
      */
     public void saltar() {
         velocidadY = fuerzaSalto;
     }
 
     /**
-     * Verifica si el pajaro colisiona con otro sprite.
+     * Verifica si el pajaro colisiona con otro sprite
      * 
-     * @param otro El otro sprite con el que se verifica la colision.
-     * @return true si hay colision; false en caso contrario.
+     * @param otro El otro sprite con el que se verifica la colision
+     * @return true si hay colision; false en caso contrario
      */
     public boolean checkCollision(Sprite otro) {
         Rectangle r1 = new Rectangle(getX(), getY(), getWidth(), getHeight());
@@ -102,9 +102,9 @@ public class Bird extends Sprite {
     }
 
     /**
-     * Dibuja el pajaro en el componente grafico.
+     * Dibuja el pajaro en el componente grafico
      * 
-     * @param g Objeto Graphics donde se dibuja.
+     * @param g Objeto Graphics donde se dibuja
      */
     @Override
     public void paint(Graphics g) {

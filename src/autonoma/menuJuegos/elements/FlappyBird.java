@@ -1,5 +1,6 @@
 /*
- * Clase que representa el juego FlappyBird como contenedor gráfico.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package autonoma.menuJuegos.elements;
 
@@ -20,8 +21,8 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 /**
- * Clase principal que controla toda la lógica, gráficos y eventos del juego Flappy Bird.
- * Extiende SpriteContainer y utiliza GraphicContainer para integrarse en el sistema de ventanas.
+ * Clase principal que controla toda la l0gica, graficos y eventos del juego.
+ * Extiende SpriteContainer y utiliza GraphicContainer
  * 
  * @author mariana
  * @since 20250525
@@ -29,10 +30,10 @@ import javax.imageio.ImageIO;
  */
 public class FlappyBird extends SpriteContainer implements GraphicContainer {
 
-    // Instancia para escribir archivos de texto plano, usada para guardar puntaje
+    // Instancia para escribir archivos de texto plano
     private EscritorArchivoTextoPlano escritor;
 
-    // Instancia para leer archivos de texto plano, usada para cargar puntaje
+    // Instancia para leer archivos de texto plano
     private LectorArchivoTextoPlano lector;
 
     // Representa el pájaro que el jugador controla
@@ -50,13 +51,13 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     // Ancho de cada tubo
     private int anchoTubo = 64;
 
-    // Altura total del tubo (interna, no visible en pantalla entera)
+    // Altura total del tubo 
     private int alturaTubo = 512;
 
-    // Número de ciclos de actualización antes de generar un nuevo par de tubos
+    // Numero de ciclos de actualizacion antes de generar un nuevo par de tubos
     private int tiempoNuevoPar = 40;
 
-    // Contador para saber cuándo generar un nuevo par de tubos
+    // Contador para saber cuando generar un nuevo par de tubos
     private int contadorTubos = 0;
 
     // Puntaje actual del jugador
@@ -65,21 +66,21 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     // Bandera que indica si el juego ha terminado
     private boolean gameOver = false;
 
-    // Objeto para generar números aleatorios (para altura de los tubos)
+    // Objeto para generar numeros aleatorios
     private Random random;
 
     // Imagen de fondo del juego
     private BufferedImage background;
 
     /**
-     * Constructor de la clase FlappyBird.
+     * Constructor que inicializa los atributos de la clase 
      *
-     * @param x              Posición horizontal del juego
-     * @param y              Posición vertical del juego
+     * @param x              Posicion horizontal del juego
+     * @param y              Posicion vertical del juego
      * @param height         Altura del contenedor
      * @param width          Ancho del contenedor
      * @param color          Color de fondo (si no hay imagen)
-     * @param gameContainer  Contenedor gráfico principal que contiene este juego
+     * @param gameContainer  Contenedor grafico principal 
      */
     public FlappyBird(int x, int y, int height, int width, Color color, GraphicContainer gameContainer) {
         super(x, y, height, width, color, gameContainer);
@@ -87,7 +88,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
         this.obstaculos = new ArrayList<>();
         this.random = new Random();
         try {
-            // Carga la imagen de fondo desde los recursos
+   
             this.background = ImageIO.read(getClass().getResource("/autonoma/menuJuego/images/fondoBird.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,25 +96,26 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Actualiza el estado del juego en cada ciclo: genera tubos, los mueve, y detecta colisiones.
+     * metodo que actualiza el estado del juego en cada ciclo: genera tubos, los mueve, y detecta colisiones.
+     * @throws IOException
      */
     public void actualizarJuego() throws IOException {
         contadorTubos++;
         if (contadorTubos >= tiempoNuevoPar) {
-            generarParObstaculos(); // Crea un nuevo par de tubos
+            generarParObstaculos();
             contadorTubos = 0;
         }
-        moverObstaculos(); // Mueve los tubos
-        bird.actualizar(); // Actualiza posición del pájaro
-        verificarColisiones(); // Revisa si el pájaro colisionó
+        moverObstaculos(); 
+        bird.actualizar();
+        verificarColisiones(); 
     }
 
     /**
-     * Genera un nuevo par de obstáculos (tubos superior e inferior) con altura aleatoria.
+     * Genera un nuevo par de obstaculos (tubos superior e inferior) con altura aleatoria
      */
     public void generarParObstaculos() {
-        int alturaSuperior = 50 + random.nextInt(250); // altura aleatoria del tubo superior
-        int x = this.getWidth(); // posición inicial en el borde derecho
+        int alturaSuperior = 50 + random.nextInt(250); 
+        int x = this.getWidth(); 
 
         Obstaculo tuboArriba = new Obstaculo("autonoma/menuJuego/images/obstaculoDown.png", x, 0, alturaSuperior, anchoTubo,  this);
         Obstaculo tuboAbajo = new Obstaculo("autonoma/menuJuego/images/obstaculoUp.png", x, alturaSuperior + espacioEntreTubos, alturaTubo, anchoTubo, this);
@@ -125,19 +127,19 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Mueve los obstáculos hacia la izquierda y verifica si el pájaro pasó correctamente un tubo.
+     * mwtodo que mueve los obstaculos hacia la izquierda y verifica si el pajaro paso correctamente un tubo
+     * @throws IOException
+     * 
      */
     public void moverObstaculos() throws IOException {
         for (int i = obstaculos.size() - 1; i >= 0; i--) {
             Obstaculo o = obstaculos.get(i);
             o.moverIzquierda(velocidadObstaculos);
-            // Elimina obstáculos fuera de pantalla
             if (o.getX() + o.getWidth() < 0) {
                 this.remove(o);
                 obstaculos.remove(i);
             }
 
-            // Aumenta el puntaje cuando el pájaro pasa un tubo
             if (!o.isPasado() && o.getY() == 0 && o.getX() + o.getWidth() < bird.getX()) {
                 o.setPasado(true); 
                 this.actualizarPuntaje(puntaje += 1);
@@ -146,7 +148,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Verifica si el pájaro ha colisionado con algún obstáculo.
+     *metodo que verifica si el pajaro ha colisionado con algun obstaculo
      */
     public void verificarColisiones() {
         for (Obstaculo o : obstaculos) {
@@ -158,7 +160,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Maneja las teclas presionadas por el jugador.
+     * Maneja las teclas presionadas por el jugador
      * @param e Evento de teclado
      */
     public void handleKey(KeyEvent e) {
@@ -168,19 +170,19 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Hace que el pájaro salte (se mueva hacia arriba).
+     * metodo que hace que el pajaro salte 
      */
     public void saltar() {
         bird.saltar();
     }
 
     /**
-     * Dibuja todos los elementos del juego en pantalla.
+     * metodo que dibuja todos los elementos del juego en pantalla
      * @param g Objeto Graphics usado para pintar
      */
     @Override
     public void paint(Graphics g) {
-        // Dibuja fondo
+
         if (background != null) {
             g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         } else {
@@ -188,15 +190,14 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
             g.fillRect(0, 0, getWidth(), getHeight());
         }
 
-        // Dibuja al pájaro
+        
         this.bird.paint(g);
 
-        // Dibuja los obstáculos
+        
         for (Obstaculo s : this.obstaculos) {
             s.paint(g);
         }
 
-        // Dibuja el texto del puntaje
         try {
             InputStream is = getClass().getResourceAsStream("/autonoma/menuJuegos/fonts/ARCADE.TTF");
             Font fuente = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(35f);
@@ -215,7 +216,8 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Reinicia el juego: limpia obstáculos, reinicia puntaje y estado del juego.
+     *metodo que reincia el juego
+     * @throws IOException
      */
     public void reiniciar() throws IOException {
         this.obstaculos.clear();
@@ -227,7 +229,8 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Verifica si el contenedor es una ventana FlappyBird y la reinicia si es así.
+     * Verifica si el contenedor es una ventana FlappyBird y la reinicia si es asi
+     * @throws IOException
      */
     public void verificarJuego() throws IOException {
         if (this.getGameContainer() instanceof FlappyBirdGameWindow ventanaFlappyBird) {
@@ -236,7 +239,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Actualiza el puntaje actual y lo guarda en un archivo de texto.
+     * Actualiza el puntaje actual y lo guarda en un archivo de texto
      * @param nuevoPuntaje Nuevo valor del puntaje
      * @throws IOException
      */
@@ -283,7 +286,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Cambia el estado del juego a terminado o no.
+     * Cambia el estado del juego a terminado o no
      * @param gameOver Estado a establecer
      */
     public void setGameOver(boolean gameOver) {
@@ -291,7 +294,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Refresca/redibuja el contenedor gráfico principal del juego.
+     * Refresca/redibuja el contenedor grafico principal del juego
      */
     @Override
     public void refresh() {
@@ -301,7 +304,7 @@ public class FlappyBird extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Devuelve los límites del área de juego como un objeto Rectangle.
+     * Devuelve los límites del area de juego como un objeto Rectangle
      * @return Límites del contenedor
      */
     @Override

@@ -13,8 +13,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Clase que representa un obstáculo (tubo) en el juego Flappy Bird.
- * Extiende de Sprite, por lo que hereda sus propiedades gráficas básicas.
+ * Clase que representa un obstaculo (tubo) en el juego.
+ * Extiende de Sprite, por lo que hereda sus propiedades graficas basicas
  * 
  * @author mariana
  * @since 20250519
@@ -30,44 +30,50 @@ public class Obstaculo extends Sprite {
     private BufferedImage image;
 
     /**
-     * Constructor de la clase Obstaculo.
-     * Inicializa la posición, tamaño, color e imagen del obstáculo.
+     * metodo que inicializa los atributos de la clase
+     * Constructor de la clase Obstaculo
      * 
-     * @param path Ruta de la imagen del tubo (ej. "imagenes/tubo.png"), debe comenzar desde "src/"
-     * @param x Coordenada X inicial del obstáculo
-     * @param y Coordenada Y inicial del obstáculo
-     * @param width Ancho del obstáculo
-     * @param height Alto del obstáculo
-     * @param gameContainer Contenedor gráfico donde se dibuja el obstáculo
+     * @param path Ruta de la imagen del tubo 
+     * @param x Coordenada X inicial del obstaculo
+     * @param y Coordenada Y inicial del obstaculo
+     * @param width Ancho del obstaculo
+     * @param height Alto del obstaculo
+     * @param gameContainer Contenedor grafico donde se dibuja el obstaculo
      */
     public Obstaculo(String path, int x, int y, int width, int height, GraphicContainer gameContainer) {
-        // Llama al constructor de Sprite con posición, tamaño y color predeterminado (verde)
+        
         super(x, y, width, height, Color.GREEN, gameContainer);
-        this.pasado = false;  // Inicialmente el jugador no ha pasado el tubo
+        this.pasado = false; 
         this.gameContainer = gameContainer;
 
         try {
-            // Carga la imagen desde el path especificado (prefijo "/" para ruta absoluta desde src)
+            
             this.image = ImageIO.read(getClass().getResource("/" + path));
         } catch (IOException | IllegalArgumentException e) {
-            // Si falla la carga de imagen, se muestra el error
             System.err.println("Error al cargar la imagen del obstáculo: " + path);
             e.printStackTrace();
         }
     }
 
-    // Getter para saber si el obstáculo ya fue pasado por el jugador
+    /**
+     * Retorna si el obstaculo ya fue pasado por el jugador
+     * @return pasado
+    */
     public boolean isPasado() {
         return pasado;
     }
 
-    // Setter para marcar el obstáculo como pasado
+    /**
+     * Modifica el estado del obstaculo para indicar si ya fue pasado por el jugador
+     * @param pasado
+    */
     public void setPasado(boolean pasado) {
         this.pasado = pasado;
     }
 
+
     /**
-     * Mueve el obstáculo hacia la izquierda a la velocidad indicada.
+     * Mueve el obstáculo hacia la izquierda a la velocidad indicada
      * 
      * @param velocidad Cantidad de píxeles a mover en cada ciclo
      */
@@ -76,18 +82,16 @@ public class Obstaculo extends Sprite {
     }
 
     /**
-     * Dibuja el obstáculo en pantalla.
-     * Si tiene imagen, la muestra. Si no, dibuja un rectángulo rojo con texto de advertencia.
-     * 
+     * Dibuja el obstaculo en pantalla
+     * Si tiene imagen, la muestra. Si no, dibuja un rectángulo rojo con texto de advertencia
      * @param g Objeto Graphics con el que se pinta el elemento
      */
     @Override
     public void paint(Graphics g) {
         if (image != null) {
-            // Dibuja la imagen escalada al tamaño y posición del obstáculo
+            
             g.drawImage(image, x, y, width, height, null);
         } else {
-            // Si no hay imagen, se dibuja un rectángulo rojo y un mensaje de advertencia
             g.setColor(Color.RED);
             g.fillRect(x, y, width, height);
             g.setColor(Color.BLACK);
@@ -95,64 +99,119 @@ public class Obstaculo extends Sprite {
         }
     }
 
-    // Métodos getter y setter para la imagen
+    
+    /**
+     * Retorna la imagen del obstaculo
+     * @return image
+    */
     public BufferedImage getImage() {
         return image;
     }
 
+    /**
+     * Modifica la imagen del obstaculo
+     * @param image
+    */
     public void setImage(BufferedImage image) {
         this.image = image;
     }
 
-    // Getters y setters para posición y dimensiones (heredados pero redefinidos aquí)
-
+    /**
+     * Retorna la posicion horizontal del obstaculo
+     * @return x
+    */
     public int getX() {
         return x;
     }
 
+    /**
+     * Modifica la posicion horizontal del obstaculo
+     * @param x
+    */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Retorna la posicion vertical del obstaculo
+     * @return y
+    */
     public int getY() {
         return y;
     }
 
+    /**
+     * Modifica la posicion vertical del obstaculo
+     * @param y
+    */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Retorna la altura del obstaculo
+     * @return height
+    */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Modifica la altura del obstaculo
+     * @param height
+    */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Retorna el ancho del obstaculo
+     * @return width
+    */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Modifica el ancho del obstaculo
+     * @param width
+    */
     public void setWidth(int width) {
         this.width = width;
     }
 
-    // Getter y setter para el color del obstáculo
+    /**
+     * Retorna el color del obstaculo
+     * @return color
+    */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Modifica el color del obstaculo
+     * @param color
+    */
     public void setColor(Color color) {
         this.color = color;
     }
 
-    // Getter y setter para el contenedor gráfico donde se dibuja el obstáculo
+    /**
+     * Retorna el contenedor grafico del juego
+     * @return gameContainer
+    */
     public GraphicContainer getGameContainer() {
         return gameContainer;
     }
 
+    /**
+     * Modifica el contenedor grafico del juego
+     * @param gameContainer
+    */
     public void setGameContainer(GraphicContainer gameContainer) {
         this.gameContainer = gameContainer;
     }
+
+
+    
 }

@@ -50,7 +50,7 @@ public class Jugador extends Personaje {
             e.printStackTrace();
         }
 
-        // Carga las imágenes asociadas a cada dirección
+        // Carga las imagenes asociadas a cada dirección
         imgArriba = ImageIO.read(getClass().getResource("/autonoma/menuJuego/images/pacmanUp.png"));
         imgAbajo = ImageIO.read(getClass().getResource("/autonoma/menuJuego/images/pacmanDown.png"));
         imgIzquierda = ImageIO.read(getClass().getResource("/autonoma/menuJuego/images/pacmanLeft.png"));
