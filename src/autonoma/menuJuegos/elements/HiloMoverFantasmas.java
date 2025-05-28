@@ -10,7 +10,7 @@ package autonoma.menuJuegos.elements;
  * Implementa la interfaz Runnable para ejecutarse en un hilo separado.
  * @author camila
  * @since 20250519
- * @version 1.0
+ * @version 1.0.
  */
 public class HiloMoverFantasmas implements Runnable {
 
